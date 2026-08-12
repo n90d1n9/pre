@@ -1,18 +1,19 @@
 ```
-# Java/Maven specific ignores
+# Java/Maven specific
 target/
 *.class
 *.jar
 *.war
 *.ear
 *.zip
-*.tar.gz
+*.tar
+*.gz
 
 # Dependencies
 lib/
 !lib/**/
 
-# IDE specific
+# IDE
 .idea/
 *.iml
 *.ipr
@@ -31,4 +32,20 @@ mvnDebug
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
 ```

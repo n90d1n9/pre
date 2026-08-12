@@ -43,6 +43,9 @@
         <module>modules/catalog/interfaces</module>
 
         <module>modules/hris/domain</module>
+
+        <!-- Communication Module -->
+        <module>modules/communication/domain</module>
     </modules>
 
     <dependencyManagement>
