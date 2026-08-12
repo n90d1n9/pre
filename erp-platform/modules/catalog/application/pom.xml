@@ -13,8 +13,6 @@
     </parent>
 
     <artifactId>erp-catalog-application</artifactId>
-    <name>ERP - Catalog Application</name>
-    <description>Catalog bounded context application layer with CQRS</description>
 
     <dependencies>
         <dependency>
