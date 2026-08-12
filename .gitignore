@@ -1,165 +1,24 @@
 ```
-# Java/Maven specific
+# Compiled and build artifacts
 *.class
-*.jar
-*.war
-*.ear
-*.zip
-*.tar
-*.tar.gz
+*.o
+*.obj
+*.out
 target/
-!target/README
-!target/**/*
-lib/
+
+# Dependencies
+**/target/
+
+# Logs and temp files
 *.log
 *.tmp
 
-# IDE related
-.gradle/
+# Editors
 .idea/
-*.iml
-*.ipr
-*.iws
-.settings/
-.project
-.classpath
 .vscode/
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
-
-# Environment specific
+# Environment
 .env
 .env.local
-.env.*
-!.env.example
-
-# Test and coverage
-coverage/
-*.cov
-*.coverage
-htmlcov/
-.pytest_cache/
-.mypy_cache/
-.hypothesis/
-
-# Build and dependency directories
-node_modules/
-vendor/
-build/
-dist/
-*.egg-info/
-.npm/
-.yarn/
-bower_components/
-
-# Compiled files
-*.pyc
-__pycache__/
-*.so
-*.dylib
-*.dll
-*.exe
-*.out
-*.o
-*.obj
-
-# Database
-*.db
-*.db-journal
-*.sqlite
-*.sqlite3
-
-# Logs
-*.log
-*.log.*
-
-# Backup files
-*~
-*.bak
-*.swp
-*.swo
-
-# Documentation
-docs/_build/
-*.pdf
-*.epub
-*.mobi
-
-# Maven specific build artifacts (if any Java compilation produces them in non-standard locations)
-*.class
-*.jar
-*.war
-*.ear
-*.nar
-*.aar
-*.hprof
-
-# Additional Maven directories that might be created during builds
-dependency-reduced-pom.xml
-META-INF/
-
-# Local configuration overrides
-local.properties
-gradle.properties
-config/local.*
-!config/local.example.*
-
-# Compressed archives
-*.zip
-*.tar
-*.tar.gz
-*.tgz
-*.gz
-*.rar
-*.7z
-*.bz2
-*.xz
-*.z
-*.Z
-*.lz
-*.lzma
-*.lzo
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.dmg
-*.iso
-*.img
-*.msi
-*.pkg
-*.whl
-*.gem
-*.nupkg
-*.jar.pack
-*.jar.idx
-*.war.pack
-*.ear.pack
-*.nar.pack
-*.aar.pack
-*.hpi
-*.jpi
-*.jpl
-*.hpl
-*.jar.sha1
-*.war.sha1
-*.ear.sha1
-*.nar.sha1
-*.aar.sha1
-*.hpi.sha1
-*.jpi.sha1
-*.jpl.sha1
-*.hpl.sha1
-
+*.env.*
 ```

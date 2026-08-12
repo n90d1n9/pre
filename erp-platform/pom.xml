@@ -36,11 +36,107 @@
         <!-- Architecture Tests -->
         <module>architecture/tests</module>
 
-        <!-- Business Modules -->
+        <!-- Business Modules - Analytics -->
+        <module>modules/analytics/domain</module>
+
+        <!-- Business Modules - Asset -->
+        <module>modules/asset/domain</module>
+
+        <!-- Business Modules - Billing -->
+        <module>modules/billing/domain</module>
+
+        <!-- Business Modules - Catalog -->
         <module>modules/catalog/domain</module>
         <module>modules/catalog/application</module>
         <module>modules/catalog/infrastructure</module>
         <module>modules/catalog/interfaces</module>
+
+        <!-- Business Modules - Communication -->
+        <module>modules/communication/domain</module>
+
+        <!-- Business Modules - Company -->
+        <module>modules/company/domain</module>
+
+        <!-- Business Modules - Compliance -->
+        <module>modules/compliance/domain</module>
+
+        <!-- Business Modules - CRM -->
+        <module>modules/crm/domain</module>
+
+        <!-- Business Modules - Document -->
+        <module>modules/document/domain</module>
+
+        <!-- Business Modules - Employee -->
+        <module>modules/employee/domain</module>
+        <module>modules/employee/application</module>
+
+        <!-- Business Modules - Grocery POS -->
+        <module>modules/grocery-pos/domain</module>
+        <module>modules/grocery-pos/application</module>
+
+        <!-- Business Modules - HRIS -->
+        <module>modules/hris/domain</module>
+
+        <!-- Business Modules - Integration -->
+        <module>modules/integration/domain</module>
+
+        <!-- Business Modules - Inventory -->
+        <module>modules/inventory/domain</module>
+
+        <!-- Business Modules - Kiosk -->
+        <module>modules/kiosk/domain</module>
+        <module>modules/kiosk/application</module>
+
+        <!-- Business Modules - Omnichannel -->
+        <module>modules/omnichannel/domain</module>
+
+        <!-- Business Modules - Pricing -->
+        <module>modules/pricing/domain</module>
+        <module>modules/pricing/application</module>
+
+        <!-- Business Modules - Project -->
+        <module>modules/project/domain</module>
+
+        <!-- Business Modules - Promotion -->
+        <module>modules/promotion/domain</module>
+        <module>modules/promotion/application</module>
+
+        <!-- Business Modules - Purchasing -->
+        <module>modules/purchasing/domain</module>
+        <module>modules/purchasing/application</module>
+
+        <!-- Business Modules - Risk -->
+        <module>modules/risk/domain</module>
+
+        <!-- Business Modules - Sales -->
+        <module>modules/sales/domain</module>
+        <module>modules/sales/application</module>
+
+        <!-- Business Modules - Security -->
+        <module>modules/security/domain</module>
+
+        <!-- Business Modules - Stock Opname -->
+        <module>modules/stockopname/domain</module>
+        <module>modules/stockopname/application</module>
+
+        <!-- Business Modules - Subscription -->
+        <module>modules/subscription/domain</module>
+        <module>modules/subscription/application</module>
+
+        <!-- Business Modules - Tenant -->
+        <module>modules/tenant/domain</module>
+
+        <!-- Business Modules - Transaction -->
+        <module>modules/transaction/domain</module>
+
+        <!-- Business Modules - Warehouse -->
+        <module>modules/warehouse/domain</module>
+
+        <!-- Business Modules - Workflow -->
+        <module>modules/workflow/domain</module>
+
+        <!-- Business Modules - Workforce -->
+        <module>modules/workforce/domain</module>
     </modules>
 
     <dependencyManagement>
