@@ -9,6 +9,13 @@ target/
 *.tar.gz
 *.tar.bz2
 
+*.tar
+*.gz
+
+# Dependencies
+lib/
+!lib/**/
+
 # IDE
 .idea/
 *.iml
@@ -58,4 +65,19 @@ ENV/
 *.tmp
 *.temp
 *~
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
 ```
