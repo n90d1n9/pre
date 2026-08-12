@@ -1,74 +1,103 @@
 ```
 # Java/Maven specific
-target/
 *.class
 *.jar
 *.war
 *.ear
 *.zip
 *.tar.gz
+target/
+!target/README.md
 
 # Dependencies
-node_modules/
-**/libs/
+lib/
+libs/
 
 # IDE
-.idea/
+.classpath
+.project
+.settings/
+.metadata/
+*.launch
 *.iml
 *.ipr
 *.iws
-.vscode/
-
-# System
-.DS_Store
-Thumbs.db
+.idea/
 
 # Logs
 *.log
+logs/
 
 # Environment
 .env
 .env.local
-*.env.*
+.env.*
+!env.example
+!env.sample
 
-# Build artifacts
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Build system
+.gradle/
+!gradle.properties
+!gradlew
+!gradlew.bat
 build/
-dist/
-out/
+!build/README.md
 
-# Python (if any mixed projects)
+# Package manager
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.venv/
-venv/
+*.py[cod]
+*$py.class
+*.so
 .Python
 pip-log.txt
 pip-delete-this-directory.txt
-
-# Testing
+.tox/
 .coverage
-htmlcov/
-.nyc_output/
-coverage/
-.junit-cache/
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.db
+*.db.*
+*.sqlite
+*.sqlite3
 
-# Temporary files
-*.tmp
-*.temp
-*~
-.swp
-.swo
+# Compiled source #
+*.com
+*.dll
+*.exe
+*.o
+*.so
+*.out
+*.a
+*.obj
 
-# Compression
-*.gz
-*.tar
+# Archives #
+*.zip
+*.tar*
 *.tgz
 *.bz2
-*.xz
 *.7z
 *.rar
+*.gz
+*.xz
 *.zst
 *.lz4
 *.lzh
@@ -79,4 +108,25 @@ coverage/
 *.Z
 *.lz
 *.lzo
+
+# Temp files #
+*.tmp
+*.temp
+*~
+.swp
+.swo
+
+# Testing #
+*.orig
+*.rej
+*.bak
+*.save
+*.backup
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage*
+.pytest_cache/
+.mypy_cache/
 ```

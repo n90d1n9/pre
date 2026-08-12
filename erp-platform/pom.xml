@@ -41,6 +41,8 @@
         <module>modules/catalog/application</module>
         <module>modules/catalog/infrastructure</module>
         <module>modules/catalog/interfaces</module>
+
+        <module>modules/hris/domain</module>
     </modules>
 
     <dependencyManagement>
