@@ -46,6 +46,9 @@
 
         <!-- Communication Module -->
         <module>modules/communication/domain</module>
+
+        <!-- Purchasing Module -->
+        <module>modules/purchasing/domain</module>
     </modules>
 
     <dependencyManagement>
