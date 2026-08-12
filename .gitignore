@@ -10,7 +10,7 @@ target/
 
 # Dependencies
 lib/
-libs/
+!lib/**/
 
 # IDE specific
 .idea/
@@ -20,11 +20,15 @@ libs/
 .vscode/
 .settings/
 .project
-.classpath
-```
 
-Wait, let me reconsider the input. The added files are all Java source files (.java) and a pom.xml file, which are source code files. There are no build artifacts, compiled files, or dependency directories in the changes shown.
+# Build system
+.mvn/
+mvnDebug
 
-```
+# Log files
+*.log
 
+# OS generated files
+.DS_Store
+Thumbs.db
 ```
