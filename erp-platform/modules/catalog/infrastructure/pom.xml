@@ -13,8 +13,6 @@
     </parent>
 
     <artifactId>erp-catalog-infrastructure</artifactId>
-    <name>ERP - Catalog Infrastructure</name>
-    <description>Catalog bounded context infrastructure layer</description>
 
     <dependencies>
         <dependency>
@@ -28,7 +26,7 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Quarkus Reactive Persistence -->
+        <!-- Quarkus - Infrastructure can use frameworks -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-reactive-panache</artifactId>
@@ -37,14 +35,10 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-reactive-pg-client</artifactId>
         </dependency>
-
-        <!-- Messaging -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
         </dependency>
-
-        <!-- Cache -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-redis-client</artifactId>
