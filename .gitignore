@@ -1,19 +1,10 @@
 ```
-# Java/Maven build artifacts
-target/
-*.class
-*.jar
-*.war
-*.ear
-
 # Dependencies
-lib/
+target/
 
-# IDE files
+# IDE
+.vscode/
 .idea/
-*.iml
-*.ipr
-*.iws
 
 # Logs
 *.log
@@ -22,18 +13,4 @@ lib/
 .env
 .env.local
 *.env.*
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Maven
-.mvn/
-mvnw
-mvnw.cmd
-
-# Build system
-build/
-dist/
-out/
 ```

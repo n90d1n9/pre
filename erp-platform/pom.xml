@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="
-             http://maven.apache.org/POM/4.0.0
-             https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tech.kayys.erp</groupId>
@@ -13,40 +11,53 @@
     <packaging>pom</packaging>
 
     <name>Kayys ERP Platform</name>
-    <description>
-        Modular ERP platform foundation - DDD, SOLID, CQRS.
-        A pure-Java domain layer plus a reactive (Mutiny) application
-        layer. No framework (Quarkus, Hibernate, Kafka, ...) is allowed
-        to leak into either - enforced by ArchUnit tests in each module.
-    </description>
-
-    <modules>
-        <module>foundation/domain</module>
-        <module>foundation/application</module>
-    </modules>
+    <description>Modular ERP with DDD and Hexagonal Architecture</description>
 
     <properties>
-        <java.version>21</java.version>
-        <maven.compiler.release>21</maven.compiler.release>
-
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <junit.version>5.11.0</junit.version>
-        <archunit.version>1.3.0</archunit.version>
-        <mutiny.version>2.6.2</mutiny.version>
-        <surefire.version>3.5.0</surefire.version>
+        <!-- Framework Versions -->
+        <quarkus.version>3.6.0</quarkus.version>
+        <archunit.version>1.1.0</archunit.version>
+        <junit.version>5.10.0</junit.version>
+        <assertj.version>3.24.2</assertj.version>
+        <mockito.version>5.6.0</mockito.version>
+        <testcontainers.version>1.19.3</testcontainers.version>
     </properties>
+
+    <modules>
+        <!-- Foundation -->
+        <module>foundation/domain</module>
+        <module>foundation/application</module>
+        <module>foundation/reactive-mutiny</module>
+
+        <!-- Architecture Tests -->
+        <module>architecture/tests</module>
+
+        <!-- Business Modules -->
+        <module>modules/catalog/domain</module>
+        <module>modules/catalog/application</module>
+        <module>modules/catalog/infrastructure</module>
+        <module>modules/catalog/interfaces</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>${junit.version}</version>
+                <groupId>io.quarkus.platform</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -57,24 +68,40 @@
             </dependency>
 
             <dependency>
-                <groupId>io.smallrye.reactive</groupId>
-                <artifactId>mutiny</artifactId>
-                <version>${mutiny.version}</version>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers</artifactId>
+                <version>${testcontainers.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
-
 </project>
