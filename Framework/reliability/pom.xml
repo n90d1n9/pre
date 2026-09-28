@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-framework</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-reliability</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Syirkah Reliability - Aggregator</name>
+    <description>
+        Phase 1 reliability (Docs/Plan/base00.md §"Reliability should be
+        designed around business events", base01.md §P1-14, §P1-15, §P1-20):
+
+            idempotency  same event arrives twice - process once
+            retry        transient failure - try again with backoff
+            outbox       write to the DB and publish atomically
+            inbox        same here - deduplicate before the domain sees it
+            failure      classify what may be retried and what may not
+
+        Reliability is designed around business events rather than around
+        network calls, because the business event is the thing that must
+        happen exactly once from the ecosystem's point of view.
+    </description>
+
+    <modules>
+        <module>reliability-api</module>
+        <module>reliability-spi</module>
+    </modules>
+
+</project>

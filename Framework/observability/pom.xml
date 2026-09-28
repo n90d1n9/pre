@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-framework</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-observability</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Syirkah Observability - Aggregator</name>
+    <description>
+        Phase 1 observability (Docs/Plan/base01.md §17, §P1-19): logging,
+        tracing, metrics and health.
+
+        The one artifact every module needs from day one is the common
+        telemetry context - traceId, spanId, correlationId, causationId,
+        tenantId, participantId, userId, requestId - so a single operation
+        can be reconstructed end to end:
+
+            API request -> domain transaction -> domain event
+                        -> outbox publish -> audit -> external webhook
+
+        Concrete exporters (OpenTelemetry, Prometheus, ...) live behind
+        ports and stay replaceable.
+    </description>
+
+    <modules>
+        <module>observability-api</module>
+    </modules>
+
+</project>

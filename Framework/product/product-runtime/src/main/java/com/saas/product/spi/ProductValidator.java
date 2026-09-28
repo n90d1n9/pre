@@ -1,0 +1,44 @@
+package com.saas.product.spi;
+
+import com.saas.product.core.ProductAggregate;
+
+import java.util.List;
+
+/**
+ * Pluggable validator for a specific extension context.
+ *
+ * Validators are discovered via CDI (Quarkus) or ServiceLoader.
+ * Each validator declares which context it handles via {@link #supports()}.
+ *
+ * Validators may:
+ *  - Enforce business rules (e.g. FnB products must have at least one modifier group)
+ *  - Cross-validate extension data against core (e.g. variant must have parent)
+ *  - Enforce regulatory constraints (e.g. pharmacy requires license number)
+ */
+public interface ProductValidator {
+
+    /**
+     * The extension context this validator applies to.
+     * e.g. "ecommerce", "fnb", "subscription"
+     */
+    String supports();
+
+    /**
+     * Validate the aggregate. Throw {@link ProductValidationException} on failure.
+     * Called only when the aggregate has an extension for {@link #supports()}.
+     */
+    void validate(ProductAggregate product);
+
+    /**
+     * Optional: collect all violations without throwing.
+     * Default delegates to validate() and wraps any exception.
+     */
+    default List<String> collectViolations(ProductAggregate product) {
+        try {
+            validate(product);
+            return List.of();
+        } catch (ProductValidationException e) {
+            return e.getViolations();
+        }
+    }
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-finance</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-finance-common</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Kayys ERP Finance - Common</name>
+    <description>
+        Currency, treasury and reporting shared across the finance bounded
+        contexts.
+    </description>
+
+    <modules>
+        <module>syirkah-finance-currency</module>
+        <module>treasury</module>
+        <!--
+            finance-reporting is intentionally NOT in the reactor yet.
+            It still imports tech.kayys.billing.domain.{BillingAccount,
+            Invoice, Payment}, an API that no longer exists: today's billing
+            domain is tech.kayys.syirkah.billing.domain.model and there is
+            no BillingAccount at all. Adding it back is a small migration
+            task, not a structural one - see Framework/README.md,
+            "Parked legacy modules".
+        -->
+    </modules>
+
+</project>

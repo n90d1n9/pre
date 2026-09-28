@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-framework</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-foundation-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Syirkah Foundation - Aggregator</name>
+    <description>
+        Phase 1 platform kernel (Docs/Plan/base01.md §18, §P1-01):
+
+          foundation-kernel       id, time, result, error, lifecycle, value
+          foundation-domain       pure Java DDD kit (artifact syirkah-foundation)
+          foundation-application  CQRS kit, Mutiny (artifact syirkah-foundation-application)
+          foundation-testing      shared test doubles + ArchUnit rules
+          foundation-adapter      replaceable infrastructure adapters
+
+        Dependency direction is one-way and enforced by ArchUnit:
+
+            Adapter  ->  Application  ->  Domain  ->  Kernel
+    </description>
+
+    <modules>
+        <module>syirkah-foundation-kernel</module>
+        <module>syirkah-foundation-domain</module>
+        <module>syirkah-foundation-application</module>
+        <module>syirkah-foundation-testing</module>
+        <module>syirkah-foundation-adapter</module>
+    </modules>
+
+</project>

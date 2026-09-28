@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>finance-payment</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>finance-payment-processor</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <quarkus.version>3.15.1</quarkus.version>
+        <jackson.version>2.16.1</jackson.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Quarkus BOM -->
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <module>syirkah-payment-ovo</module>
+        <module>syirkah-payment-bank</module>
+        <module>syirkah-payment-card</module>
+        <module>syirkah-payment-fintech</module>
+        <module>syirkah-payment-qris</module>
+        <module>syirkah-payment-ewallet</module>
+        <module>syirkah-payment-retail</module>
+        <module>syirkah-payment-cash</module>
+        <module>syirkah-payment-gopay</module>
+        <module>syirkah-payment-virtualaccount</module>
+        <module>syirkah-payment-edc</module>
+    </modules>
+</project>

@@ -1,0 +1,126 @@
+# Payment Gateway Configuration
+# Copy this to application.properties and update with your credentials
+
+# ===========================================
+# MIDTRANS CONFIGURATION
+# ===========================================
+# Midtrans is a payment aggregator supporting multiple payment methods
+# Documentation: https://docs.midtrans.com/
+
+# Midtrans Server Key (from Midtrans Dashboard)
+payment.gateway.midtrans.server-key=SB-Mid-server-YOUR_SERVER_KEY
+
+# Midtrans Client Key (for frontend tokenization)
+payment.gateway.midtrans.client-key=SB-Mid-client-YOUR_CLIENT_KEY
+
+# Midtrans Merchant ID
+payment.gateway.midtrans.merchant-id=YOUR_MERCHANT_ID
+
+# Environment: SANDBOX or PRODUCTION
+payment.gateway.midtrans.environment=SANDBOX
+
+# Base URL (auto-set based on environment)
+payment.gateway.midtrans.base-url=https://api.sandbox.midtrans.com
+
+# ===========================================
+# XENDIT CONFIGURATION
+# ===========================================
+# Xendit is a payment aggregator supporting VA, e-wallets, QRIS
+# Documentation: https://developers.xendit.co/
+
+# Xendit Secret Key (from Xendit Dashboard)
+payment.gateway.xendit.secret-key=xnd_development_YOUR_SECRET_KEY
+
+# Xendit Public Key (for frontend)
+payment.gateway.xendit.public-key=xnd_public_development_YOUR_PUBLIC_KEY
+
+# Environment: SANDBOX or PRODUCTION
+payment.gateway.xendit.environment=SANDBOX
+
+# Base URL
+payment.gateway.xendit.base-url=https://api.xendit.co
+
+# ===========================================
+# DOKU CONFIGURATION
+# ===========================================
+# Doku is an Indonesian payment gateway
+# Documentation: https://www.doku.com/
+
+payment.gateway.doku.client-id=YOUR_CLIENT_ID
+payment.gateway.doku.secret-key=YOUR_SECRET_KEY
+payment.gateway.doku.environment=SANDBOX
+
+# ===========================================
+# OY! INDONESIA CONFIGURATION
+# ===========================================
+# OY! provides bank transfer and e-wallet payments
+# Documentation: https://oyindonesia.com/
+
+payment.gateway.oy.api-key=YOUR_API_KEY
+payment.gateway.oy.environment=SANDBOX
+
+# ===========================================
+# DIRECT BANK CONFIGURATION (Optional)
+# ===========================================
+# If using direct bank integration instead of aggregators
+
+# BCA (Bank Central Asia)
+payment.gateway.bca.client-id=YOUR_BCA_CLIENT_ID
+payment.gateway.bca.client-secret=YOUR_BCA_CLIENT_SECRET
+payment.gateway.bca.environment=SANDBOX
+
+# Mandiri
+payment.gateway.mandiri.client-id=YOUR_MANDIRI_CLIENT_ID
+payment.gateway.mandiri.client-secret=YOUR_MANDIRI_CLIENT_SECRET
+payment.gateway.mandiri.environment=SANDBOX
+
+# BNI (Bank Negara Indonesia)
+payment.gateway.bni.client-id=YOUR_BNI_CLIENT_ID
+payment.gateway.bni.client-secret=YOUR_BNI_CLIENT_SECRET
+payment.gateway.bni.environment=SANDBOX
+
+# ===========================================
+# PAYMENT METHOD SETTINGS
+# ===========================================
+
+# Default gateway provider (if not specified in request)
+payment.default.gateway=MIDTRANS
+
+# Enabled payment methods (comma-separated)
+payment.methods.enabled=QRIS,BANK_TRANSFER,VA_BCA,VA_MANDIRI,E_WALLET,OVO,GOPAY,DANA,FINTECH,KREDIVO
+
+# Default currency
+payment.currency=IDR
+
+# Payment expiry time (in minutes)
+payment.expiry.minutes=1440
+
+# ===========================================
+# WEBHOOK CONFIGURATION
+# ===========================================
+
+# Webhook callback URL (where gateways will send payment notifications)
+payment.webhook.url=https://your-domain.com/api/payments/webhook
+
+# Webhook signature verification enabled
+payment.webhook.verify-signature=true
+
+# ===========================================
+# RETRY AND TIMEOUT SETTINGS
+# ===========================================
+
+# Gateway connection timeout (milliseconds)
+payment.gateway.timeout=30000
+
+# Gateway retry attempts
+payment.gateway.retry-attempts=3
+
+# ===========================================
+# LOGGING CONFIGURATION
+# ===========================================
+
+# Log payment gateway requests and responses
+quarkus.log.category."tech.kayys.payment".level=DEBUG
+
+# Log HTTP client for gateway calls
+quarkus.log.category."org.apache.http".level=DEBUG

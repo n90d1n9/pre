@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-finance</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>finance-payment</artifactId>
+    <packaging>pom</packaging>
+    <name>Finance - Payment Engine</name>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-method</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-gateway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-fnb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-merchant</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-grpc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-payment-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>syirkah-payment-gateway</module>
+        <module>syirkah-payment-method</module>
+        <module>syirkah-payment-core</module>
+        <module>syirkah-payment-merchant</module>
+        <module>syirkah-payment-grpc</module>
+        <module>syirkah-payment-rest</module>
+        <module>processor</module>
+        <!--
+            PARKED (see Framework/README.md, "Parked legacy modules"):
+            syirkah-payment-fnb and syirkah-payment-util still import
+            jakarta.* plus tech.kayys.payment.model, tech.kayys.sy.tenant
+            and tech.kayys.transaction.domain - APIs none of which exist
+            in this workspace. They predate the reactor and were never
+            built by it. Re-adding them is a migration task: declare the
+            real Quarkus/Panache dependencies, map their code onto the
+            current payment-core contracts, then list them here again.
+        -->
+    </modules>
+</project>

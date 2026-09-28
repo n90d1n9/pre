@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-framework</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>syirkah-product</artifactId>
+    <packaging>pom</packaging>
+    <name>Syirkah Product Capability</name>
+    <modules>
+        <module>product-domain</module>
+        <module>product-spi</module>
+        <module>product-application</module>
+        <module>product-adapter</module>
+        <module>product-core</module>
+        <module>product-catalog</module>
+        <!--
+            product-runtime is intentionally NOT in the reactor: it is the
+            pre-existing all-in-one Quarkus prototype (com.saas.product.*)
+            whose model duplicates Product 1.0 and whose test suite was
+            already failing before Product 1.0 existed. See this module's
+            README, "Legacy modules". It is added back only once its
+            duplicate model is migrated to syirkah-product-domain and its
+            REST/persistence concerns are split out.
+        -->
+    </modules>
+</project>

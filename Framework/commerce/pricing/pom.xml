@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-commerce</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-pricing-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Syirkah Commerce - Pricing Aggregator</name>
+    <description>
+        Commerce Pricing Capability (product01.md Phase D):
+        storefront price resolution over an offering + validated
+        configuration. Consumes offering/configuration by ID only.
+        Distinct from finance/billing pricing (invoice-time calculation).
+    </description>
+
+    <modules>
+        <module>syirkah-pricing-domain</module>
+        <module>syirkah-pricing-spi</module>
+        <module>syirkah-pricing-application</module>
+        <module>syirkah-pricing-adapter</module>
+    </modules>
+
+</project>

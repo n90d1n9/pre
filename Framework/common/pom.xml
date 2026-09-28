@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-framework</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-common</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Syirkah Common - Aggregator</name>
+    <description>
+        Cross-cutting capabilities that are not a Phase of their own.
+
+        Deliberately narrow: a "common" module that grows into a dumping
+        ground is how a platform loses its boundaries. Anything that has a
+        business model of its own belongs under its own capability
+        directory instead.
+    </description>
+
+    <modules>
+        <module>analytics</module>
+        <module>syirkah-communication</module>
+    </modules>
+
+</project>
