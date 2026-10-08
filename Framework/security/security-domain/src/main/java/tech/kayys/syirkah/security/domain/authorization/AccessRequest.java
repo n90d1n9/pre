@@ -1,12 +1,13 @@
 package tech.kayys.syirkah.security.domain.authorization;
 
+import tech.kayys.syirkah.foundation.domain.tenant.TenantId;
 import tech.kayys.syirkah.security.domain.valueobject.ActionType;
 
 import java.util.Objects;
 import java.util.UUID;
 
 /**
- * The full context of an authorization decision (base01.md §P1-17).
+ * The full context of an authorization decision (base01.md §P1-17, security01.md §3.1).
  *
  * <p>The example from the plan, made executable:
  *
@@ -23,7 +24,7 @@ import java.util.UUID;
  */
 public record AccessRequest(
         Principal principal,
-        UUID tenantId,
+        TenantId tenantId,
         ActionType action,
         String resourceType,
         String resourceId,
@@ -40,9 +41,18 @@ public record AccessRequest(
 
     public static AccessRequest of(
             Principal principal,
-            UUID tenantId,
+            TenantId tenantId,
             ActionType action,
             String resourceType) {
         return new AccessRequest(principal, tenantId, action, resourceType, "", "");
+    }
+
+    public static AccessRequest of(
+            Principal principal,
+            UUID tenantId,
+            ActionType action,
+            String resourceType) {
+        Objects.requireNonNull(tenantId, "tenantId cannot be null");
+        return new AccessRequest(principal, TenantId.of(tenantId), action, resourceType, "", "");
     }
 }
