@@ -6,9 +6,12 @@ import tech.kayys.syirkah.identity.domain.role.RoleId;
 import tech.kayys.syirkah.identity.domain.user.UserId;
 
 import java.time.Instant;
+import java.util.Set;
 
 public interface RoleAssignmentPort {
     Uni<Boolean> isAssigned(TenantId tenantId, UserId userId, RoleId roleId);
+
+    Uni<Set<RoleId>> rolesFor(TenantId tenantId, UserId userId);
 
     Uni<Void> assign(
             TenantId tenantId,

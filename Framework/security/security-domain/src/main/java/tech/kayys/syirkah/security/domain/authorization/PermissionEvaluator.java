@@ -1,17 +1,13 @@
 package tech.kayys.syirkah.security.domain.authorization;
 
-import tech.kayys.syirkah.foundation.domain.exception.BusinessRuleViolation;
-
 import java.util.Objects;
 import java.util.Set;
 
 /**
  * Domain service that decides an {@link AccessRequest} given the
- * permissions granted to the principal (base01.md §P1-17).
+ * permissions granted to the principal (base01.md §P1-17, security02.md).
  *
- * <p>Order of the checks is deliberate and stable, because it is what
- * auditors read:
- *
+ * <p>Order of the checks is deliberate and stable:
  * <pre>
  *   1. tenant membership  - a non-member is denied before anything else
  *   2. permission grant    - the verb/resource pair must be granted
@@ -42,10 +38,10 @@ public final class PermissionEvaluator {
             return AccessDecision.deny("Principal is not a member of tenant " + request.tenantId());
         }
 
-        final var permission = Permission.of(request.action(), request.resourceType());
+        final var permission = Permission.of(request.resourceType(), request.action().name());
         if (!granted.contains(permission)) {
             return AccessDecision.deny(
-                    "Permission " + permission.action() + " on " + permission.resourceType()
+                    "Permission " + permission.action() + " on " + permission.resource()
                             + " is not granted");
         }
 
@@ -59,14 +55,11 @@ public final class PermissionEvaluator {
         return AccessDecision.allow(
                 "Member of tenant " + request.tenantId()
                         + " with permission " + permission.action()
-                        + " on " + permission.resourceType());
+                        + " on " + permission.resource());
     }
 
-    /** Convenience factory for an all-resources grant. */
+    /** Convenience factory for an all-resources grant. Empty grants evaluate to DENY on decide(). */
     public static PermissionEvaluator with(Set<Permission> granted) {
-        if (granted == null || granted.isEmpty()) {
-            throw new BusinessRuleViolation("At least one permission grant is required");
-        }
-        return new PermissionEvaluator(granted, Set.of());
+        return new PermissionEvaluator(granted == null ? Set.of() : granted, Set.of());
     }
 }

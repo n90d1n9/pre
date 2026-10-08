@@ -29,4 +29,8 @@ public record AccessDecision(Decision decision, String reason) {
     public boolean isAllowed() {
         return decision == Decision.ALLOW;
     }
+
+    public boolean allowed() {
+        return isAllowed();
+    }
 }

@@ -263,6 +263,11 @@
                 <artifactId>syirkah-security-spi</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-security-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>tech.kayys.syirkah</groupId>

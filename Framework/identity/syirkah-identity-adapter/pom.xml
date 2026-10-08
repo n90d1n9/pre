@@ -61,6 +61,12 @@
         </dependency>
 
         <dependency>
+            <groupId>tech.kayys.syirkah</groupId>
+            <artifactId>syirkah-security-spi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-reactive</artifactId>
         </dependency>

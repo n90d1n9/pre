@@ -56,6 +56,24 @@ class PermissionEvaluatorTest {
     }
 
     @Test
+    void shouldDenyCleanlyWhenGrantsAreEmptyWithoutThrowing() {
+        var tenantId = TenantId.of(UUID.randomUUID());
+        var principal = Principal.of(PrincipalId.of(UUID.randomUUID()), "dave", tenantId);
+
+        var evaluator = PermissionEvaluator.with(Set.of());
+        var request = AccessRequest.of(principal, tenantId, ActionType.READ, "order");
+
+        var decision = evaluator.decide(request);
+
+        assertEquals(Decision.DENY, decision.decision());
+        assertTrue(decision.reason().contains("not granted"));
+
+        var nullEvaluator = PermissionEvaluator.with(null);
+        var nullDecision = nullEvaluator.decide(request);
+        assertEquals(Decision.DENY, nullDecision.decision());
+    }
+
+    @Test
     void shouldEnforceScopedResourceIds() {
         var tenantId = TenantId.of(UUID.randomUUID());
         var principal = Principal.of(PrincipalId.of(UUID.randomUUID()), "dave", tenantId);
@@ -70,5 +88,14 @@ class PermissionEvaluatorTest {
 
         assertEquals(Decision.ALLOW, evaluator.decide(reqAllowed).decision());
         assertEquals(Decision.DENY, evaluator.decide(reqDenied).decision());
+    }
+
+    @Test
+    void shouldSupportCanonicalStringFormat() {
+        var perm = Permission.of("Product", "READ");
+        assertEquals("product", perm.resource());
+        assertEquals("read", perm.action());
+        assertEquals("product.read", perm.name());
+        assertEquals("product", perm.resourceType());
     }
 }

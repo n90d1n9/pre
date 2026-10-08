@@ -36,6 +36,30 @@ public class PostgresRoleAssignmentRepository implements RoleAssignmentPort {
     }
 
     @Override
+    public Uni<java.util.Set<RoleId>> rolesFor(TenantId tenantId, UserId userId) {
+        return Panache.getSession()
+                .chain(session -> session.createSelectionQuery("""
+                        select ur.roleId
+                        from TenantUserRoleEntity ur,
+                             TenantMembershipEntity m,
+                             UserEntity u
+                        where ur.tenantId = :tenantId
+                          and ur.userId = :userId
+                          and m.tenantId = ur.tenantId
+                          and m.userId = ur.userId
+                          and m.status = 'ACTIVE'
+                          and u.id = ur.userId
+                          and u.status = 'ACTIVE'
+                        """, UUID.class)
+                        .setParameter("tenantId", tenantId.value())
+                        .setParameter("userId", userId.value())
+                        .getResultList())
+                .map(roleIds -> roleIds.stream()
+                        .map(RoleId::new)
+                        .collect(java.util.stream.Collectors.toUnmodifiableSet()));
+    }
+
+    @Override
     public Uni<Void> assign(
             TenantId tenantId,
             UserId userId,

@@ -56,6 +56,13 @@ public record ExecutionContext(
         return new Builder();
     }
 
+    public TenantId requireTenant() {
+        if (tenantId == null) {
+            throw new IllegalStateException("Tenant context is required for tenant-scoped operation");
+        }
+        return tenantId;
+    }
+
     public ExecutionContext withTenantId(TenantId tenantId) {
         return new ExecutionContext(tenantId, correlationId, causationId, actorId, traceId, spanId, now, locale, timeZone, attributes);
     }
