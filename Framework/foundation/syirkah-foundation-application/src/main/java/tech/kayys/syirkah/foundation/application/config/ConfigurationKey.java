@@ -50,6 +50,48 @@ public final class ConfigurationKey<T> {
         return new ConfigurationKey<>(name, type, true, null, true);
     }
 
+    public static <T> Builder<T> builder(String name, Class<T> type) {
+        return new Builder<>(name, type);
+    }
+
+    public static final class Builder<T> {
+        private final String name;
+        private final Class<T> type;
+        private boolean required;
+        private T defaultValue;
+        private boolean sensitive;
+        private String description;
+
+        public Builder(String name, Class<T> type) {
+            this.name = Objects.requireNonNull(name, "key name cannot be null");
+            this.type = Objects.requireNonNull(type, "key type cannot be null");
+        }
+
+        public Builder<T> required() {
+            this.required = true;
+            return this;
+        }
+
+        public Builder<T> defaultValue(T defaultValue) {
+            this.defaultValue = defaultValue;
+            return this;
+        }
+
+        public Builder<T> sensitive() {
+            this.sensitive = true;
+            return this;
+        }
+
+        public Builder<T> description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public ConfigurationKey<T> build() {
+            return new ConfigurationKey<>(name, type, required, defaultValue, sensitive);
+        }
+    }
+
     public String name() {
         return name;
     }
