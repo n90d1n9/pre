@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.compliance.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Audit log entry identifier.
  */
-public final class AuditLogId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record AuditLogId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public AuditLogId(UUID value) {
-        super(value);
+    public AuditLogId {
+        Objects.requireNonNull(value, "AuditLogId value cannot be null");
     }
 
     public static AuditLogId of(UUID value) {

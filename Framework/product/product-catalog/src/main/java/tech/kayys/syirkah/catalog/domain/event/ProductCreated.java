@@ -1,11 +1,19 @@
 package tech.kayys.syirkah.catalog.domain.event;
 
-import tech.kayys.syirkah.catalog.domain.model.Product;
+import tech.kayys.syirkah.catalog.domain.model.CatalogProduct;
 import tech.kayys.syirkah.foundation.domain.event.DomainEvent;
 
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Catalog (bounded-context) domain event: a Catalog product was created.
+ *
+ * <p>This is <b>not</b> the Product foundation
+ * {@code ProductCreated} event. It carries catalog-listing fields
+ * (price, currency) that the Product foundation deliberately does not
+ * expose (product00.md).</p>
+ */
 public class ProductCreated implements DomainEvent {
 
     private static final long serialVersionUID = 1L;
@@ -20,12 +28,12 @@ public class ProductCreated implements DomainEvent {
     private final String price;
     private final String currency;
 
-    public ProductCreated(Product product) {
+    public ProductCreated(CatalogProduct product) {
         this.eventId = UUID.randomUUID();
         this.eventType = "ProductCreated";
         this.occurredAt = Instant.now();
         this.aggregateId = product.getId().toString();
-        this.aggregateType = "Product";
+        this.aggregateType = "CatalogProduct";
         this.productName = product.getName();
         this.sku = product.getSku();
         this.price = product.getPrice().getAmount().toPlainString();

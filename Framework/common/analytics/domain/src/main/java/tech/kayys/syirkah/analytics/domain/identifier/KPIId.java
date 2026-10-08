@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.analytics.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * KPI identifier.
  */
-public final class KPIId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record KPIId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public KPIId(UUID value) {
-        super(value);
+    public KPIId {
+        Objects.requireNonNull(value, "KPIId value cannot be null");
     }
 
     public static KPIId of(UUID value) {

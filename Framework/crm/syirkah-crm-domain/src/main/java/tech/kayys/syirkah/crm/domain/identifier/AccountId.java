@@ -1,13 +1,15 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class AccountId extends Identifier<UUID> {
+public record AccountId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public AccountId(UUID value) {
-        super(value);
+    public AccountId {
+        Objects.requireNonNull(value, "AccountId value cannot be null");
     }
 
     public static AccountId of(UUID value) {
@@ -16,5 +18,10 @@ public final class AccountId extends Identifier<UUID> {
 
     public static AccountId generate() {
         return of(UUID.randomUUID());
+    }
+
+    @Override
+    public String toString() {
+        return value != null ? value.toString() : "";
     }
 }

@@ -1,7 +1,7 @@
 package tech.kayys.syirkah.accounting.domain.event;
 
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.event.DomainEvent;
 
 import java.time.Instant;
@@ -19,7 +19,7 @@ public interface AccountingEvent extends DomainEvent {
         return getClass().getSimpleName();
     }
 
-    TenantId tenantId();
+    TenantRef tenantId();
     LedgerId ledgerId();
     String correlationId();
     String causationId();

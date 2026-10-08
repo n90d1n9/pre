@@ -16,6 +16,9 @@ public record DocumentVersion(
         Objects.requireNonNull(sha256Hash);
         Objects.requireNonNull(storageKey);
         Objects.requireNonNull(createdAt);
+        if (sha256Hash.isBlank() || storageKey.isBlank()) {
+            throw new IllegalArgumentException("sha256Hash and storageKey must not be blank");
+        }
         if (versionNumber < 1) throw new IllegalArgumentException("versionNumber must be >= 1");
     }
 }

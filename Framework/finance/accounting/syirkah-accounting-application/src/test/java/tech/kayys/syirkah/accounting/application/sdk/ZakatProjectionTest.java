@@ -7,7 +7,7 @@ import tech.kayys.syirkah.accounting.application.sdk.bootstrap.AccountingEngine;
 import tech.kayys.syirkah.accounting.application.sdk.plugin.aaoifi.AaoifiLitePlugin;
 import tech.kayys.syirkah.accounting.domain.event.MurabahaCreated;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("ZakatProjection — AAOIFI FAS 9 Simplified")
 class ZakatProjectionTest {
 
-    private static final TenantId TENANT = new TenantId("tenant-acme");
+    private static final TenantRef TENANT = new TenantRef("tenant-acme");
     private static final LedgerId LEDGER = new LedgerId("SHARIAH");
 
     @Test

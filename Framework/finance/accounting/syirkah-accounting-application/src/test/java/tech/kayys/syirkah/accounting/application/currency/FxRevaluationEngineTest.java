@@ -9,7 +9,7 @@ import tech.kayys.syirkah.accounting.application.workflow.gamelan.WorkflowStartR
 import tech.kayys.syirkah.accounting.domain.currency.ExchangeRateProvider;
 import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;
 
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ class FxRevaluationEngineTest {
         ExchangeRateProvider rateProvider = (src, tgt, date) -> Optional.of(new BigDecimal("16000")); // 1 USD = 16,000 IDR
         FxRevaluationEngine engine = new FxRevaluationEngine(rateProvider);
 
-        TenantId tenantId = new TenantId("t1");
+        TenantRef tenantId = new TenantRef("t1");
         LedgerId ledgerId = new LedgerId("PRIMARY");
 
         // 10,000 USD booked at 15,000 IDR = 150,000,000 IDR
@@ -58,7 +58,7 @@ class FxRevaluationEngineTest {
         var request = new WorkflowStartRequest(
                 "period-close-fx-revaluation",
                 "CLOSE-2026-09",
-                new TenantId("t1"),
+                new TenantRef("t1"),
                 new LedgerId("PRIMARY"),
                 Map.of("month", "2026-09", "initiator", "cfo")
         );

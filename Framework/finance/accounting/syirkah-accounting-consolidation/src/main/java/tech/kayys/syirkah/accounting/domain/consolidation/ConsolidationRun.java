@@ -2,7 +2,7 @@
 package tech.kayys.syirkah.accounting.domain.consolidation;
 
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Objects;
 public class ConsolidationRun {
 
     private final String runId;
-    private final TenantId parentTenantId;
+    private final TenantRef parentTenantId;
     private final LedgerId consolidationLedgerId;
     private final String fiscalYear;
     private final int fiscalPeriod;
@@ -23,7 +23,7 @@ public class ConsolidationRun {
 
     public ConsolidationRun(
             String runId,
-            TenantId parentTenantId,
+            TenantRef parentTenantId,
             LedgerId consolidationLedgerId,
             String fiscalYear,
             int fiscalPeriod,
@@ -71,7 +71,7 @@ public class ConsolidationRun {
     }
 
     public String runId() { return runId; }
-    public TenantId parentTenantId() { return parentTenantId; }
+    public TenantRef parentTenantId() { return parentTenantId; }
     public LedgerId consolidationLedgerId() { return consolidationLedgerId; }
     public String fiscalYear() { return fiscalYear; }
     public int fiscalPeriod() { return fiscalPeriod; }

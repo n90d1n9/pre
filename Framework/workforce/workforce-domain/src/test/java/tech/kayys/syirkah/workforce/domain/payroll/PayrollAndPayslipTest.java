@@ -48,7 +48,7 @@ class PayrollAndPayslipTest {
         period.startProcessing();
         assertThat(period.status()).isEqualTo(PayrollPeriodStatus.PROCESSING);
 
-        period.finalize();
+        period.finalizePeriod();
         assertThat(period.status()).isEqualTo(PayrollPeriodStatus.FINALIZED);
 
         period.close();

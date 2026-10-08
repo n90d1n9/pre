@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.analytics.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Report identifier.
  */
-public final class ReportId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record ReportId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public ReportId(UUID value) {
-        super(value);
+    public ReportId {
+        Objects.requireNonNull(value, "ReportId value cannot be null");
     }
 
     public static ReportId of(UUID value) {

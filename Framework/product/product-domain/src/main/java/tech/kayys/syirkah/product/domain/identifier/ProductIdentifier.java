@@ -3,19 +3,20 @@ package tech.kayys.syirkah.product.domain.identifier;
 import java.util.Objects;
 
 /**
- * One external identification of a product.
+ * One external identification of a product (product02.md).
  *
- * The optional namespace scopes the value to the issuing system
- * (e.g. which supplier's ERP a SUPPLIER_CODE belongs to).
+ * {@code scope} tells the application/infrastructure layer where
+ * uniqueness should be enforced (GLOBAL vs SUPPLIER, etc.).
  */
 public record ProductIdentifier(
-        IdentifierType type,
+        ProductIdentifierType type,
         String value,
-        String namespace
+        ProductIdentifierScope scope
 ) {
 
     public ProductIdentifier {
-        Objects.requireNonNull(type, "type cannot be null");
+        Objects.requireNonNull(type, "Identifier type cannot be null");
+        Objects.requireNonNull(scope, "Identifier scope cannot be null");
 
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException(
@@ -24,12 +25,19 @@ public record ProductIdentifier(
         }
 
         value = value.trim();
-        namespace = namespace == null || namespace.isBlank()
-                ? null
-                : namespace.trim();
     }
 
-    public ProductIdentifier(IdentifierType type, String value) {
-        this(type, value, null);
+    /** Defaults scope from type (GTIN/EAN/UPC → GLOBAL, else TENANT). */
+    public ProductIdentifier(ProductIdentifierType type, String value) {
+        this(type, value, defaultScope(type));
+    }
+
+    public static ProductIdentifierScope defaultScope(ProductIdentifierType type) {
+        return switch (type) {
+            case GTIN, EAN, UPC, ISBN -> ProductIdentifierScope.GLOBAL;
+            case SUPPLIER_CODE -> ProductIdentifierScope.SUPPLIER;
+            case MANUFACTURER_CODE -> ProductIdentifierScope.MANUFACTURER;
+            default -> ProductIdentifierScope.TENANT;
+        };
     }
 }

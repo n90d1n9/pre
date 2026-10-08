@@ -3,7 +3,7 @@ package tech.kayys.syirkah.product.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.kayys.syirkah.product.domain.bundle.BundleComponent;
-import tech.kayys.syirkah.product.domain.identifier.IdentifierType;
+import tech.kayys.syirkah.product.domain.identifier.ProductIdentifierType;
 import tech.kayys.syirkah.product.domain.identifier.ProductIdentifier;
 import tech.kayys.syirkah.product.domain.packaging.Packaging;
 import tech.kayys.syirkah.product.domain.product.ProductId;
@@ -144,25 +144,27 @@ class ProductValueObjectTest {
     @Test
     void productIdentifierValidatesValueAndNamespace() {
         var identifier = new ProductIdentifier(
-                IdentifierType.SUPPLIER_CODE,
+                ProductIdentifierType.SUPPLIER_CODE,
                 " SUP-991 ",
-                "SUPPLIER-A"
+                tech.kayys.syirkah.product.domain.identifier.ProductIdentifierScope.SUPPLIER
         );
 
         assertEquals("SUP-991", identifier.value());
-        assertEquals("SUPPLIER-A", identifier.namespace());
+        assertEquals("SUPPLIER", identifier.scope().name());
 
         var namespaceless = new ProductIdentifier(
-                IdentifierType.EAN,
+                ProductIdentifierType.EAN,
                 "8991234567890"
         );
 
-        assertNull(namespaceless.namespace());
+        assertEquals(
+                tech.kayys.syirkah.product.domain.identifier.ProductIdentifierScope.GLOBAL,
+                namespaceless.scope());
 
         assertThrows(
                 IllegalArgumentException.class,
                 () -> new ProductIdentifier(
-                        IdentifierType.EAN,
+                        ProductIdentifierType.EAN,
                         " "
                 )
         );

@@ -1,7 +1,42 @@
-# Product Module
+# Product Module — DEPRECATED, DO NOT USE
 
-**Future-proof, domain-agnostic product catalog**
-for e-commerce, FnB, subscription, and any future vertical.
+This is the pre-1.0 Quarkus prototype. It is NOT the Product foundation.
+
+## Status: DEPRECATED — MIGRATE AWAY
+
+`product-runtime` (artifact `syirkah-product-runtime`) is **excluded from
+the Maven reactor** and carries a **duplicate Product model**
+(`com.saas.product.*`) that predates Product 1.0. It must **not** be used
+as the canonical Product model. The canonical model lives in
+`syirkah-product-domain` (`tech.kayys.syirkah.product.domain.*`) and is
+consumed by `syirkah-product-application`, `syirkah-product-adapter`,
+`syirkah-product-spi`.
+
+This module is retained only as a **reference implementation** of the
+extension-map / JSONB / CQRS patterns described below. New code must
+implement those patterns against `product-domain`, not against this
+module.
+
+### Duplicate model — what must NOT be copied here
+
+| This module (`com.saas.product.*`) | Canonical (`tech.kayys.syirkah.product.domain.*`) |
+| --- | --- |
+| `core/model/ProductId` (String-backed) | `product.domain.product.ProductId` (`record(UUID)` implements `DomainId<UUID>`) |
+| `core/model/ProductCore` | `product.domain.product.Product` (aggregate root, events, identifiers) |
+| `core/model/ProductType` (8 values incl. `VARIANT_PARENT`, `VARIANT`) | `product.domain.product.ProductType` (6 values: PHYSICAL, DIGITAL, SERVICE, SUBSCRIPTION, FEE, BUNDLE) |
+| `core/lifecycle/ProductStatus` (DRAFT/ACTIVE/SUSPENDED/ARCHIVED, reversible) | `product.domain.product.ProductStatus` (DRAFT → ACTIVE → DISCONTINUED → ARCHIVED, one-way) |
+| `core/ProductAggregate` | `product.domain.product.Product` |
+| `spi/ProductRepository` / `spi/ProductQuery` | `product.spi.port.*Repository` (application-layer ports) |
+
+### Migration path
+
+1. Re-implement the extension-map pattern using `ProductExtension`
+   against `product.domain.product.Product`.
+2. Re-implement JSONB storage against `product.domain.sku.Sku`,
+   `variant.ProductVariant`, `specification.ProductSpecification`.
+3. Re-implement CQRS write/read split against
+   `product.spi.port.*Repository` ports.
+4. Delete this module once migration is complete.
 
 ---
 

@@ -1,7 +1,9 @@
 package tech.kayys.syirkah.ecosystem.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -11,12 +13,10 @@ import java.util.UUID;
  * be a tenant's own operation, a Syirkah-hosted capability, or an external
  * provider. See {@code Docs/Plan/base00.md} §3.
  */
-public final class ParticipantId extends Identifier<UUID> {
+public record ParticipantId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public ParticipantId(UUID value) {
-        super(value);
+    public ParticipantId {
+        Objects.requireNonNull(value, "ParticipantId value cannot be null");
     }
 
     public static ParticipantId of(UUID value) {

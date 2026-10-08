@@ -2,6 +2,7 @@ package tech.kayys.syirkah.purchasing.domain.model;
 
 import tech.kayys.syirkah.foundation.domain.entity.AbstractAggregateRoot;
 import tech.kayys.syirkah.foundation.domain.event.DomainEvent;
+import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 import tech.kayys.syirkah.purchasing.domain.identifier.ContractId;
 import tech.kayys.syirkah.purchasing.domain.identifier.VendorId;
 import tech.kayys.syirkah.purchasing.domain.valueobject.*;

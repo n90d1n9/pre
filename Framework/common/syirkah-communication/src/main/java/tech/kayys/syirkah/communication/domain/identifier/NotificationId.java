@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.communication.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Notification identifier.
  */
-public final class NotificationId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record NotificationId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public NotificationId(UUID value) {
-        super(value);
+    public NotificationId {
+        Objects.requireNonNull(value, "NotificationId value cannot be null");
     }
 
     public static NotificationId of(UUID value) {

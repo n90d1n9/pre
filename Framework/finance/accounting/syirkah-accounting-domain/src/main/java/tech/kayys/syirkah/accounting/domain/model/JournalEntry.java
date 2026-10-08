@@ -8,7 +8,7 @@ import tech.kayys.syirkah.accounting.domain.islamic.ShariaContractType;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerAware;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.multitenancy.TenantAware;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.entity.AbstractAggregateRoot;
 import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 import tech.kayys.syirkah.foundation.domain.valueobject.ValueObject;
@@ -48,7 +48,7 @@ public final class JournalEntry extends AbstractAggregateRoot<JournalEntryId> im
     }
 
     private final JournalEntryId id;
-    private final TenantId tenantId;
+    private final TenantRef tenantId;
     private final LedgerId ledgerId;
     private String entryNumber;
     private Instant entryDate;
@@ -71,7 +71,7 @@ public final class JournalEntry extends AbstractAggregateRoot<JournalEntryId> im
 
     public JournalEntry(
             JournalEntryId id,
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             String entryNumber,
             Instant entryDate,
@@ -79,7 +79,7 @@ public final class JournalEntry extends AbstractAggregateRoot<JournalEntryId> im
     ) {
         super(id);
         this.id = Objects.requireNonNull(id, "id cannot be null");
-        this.tenantId = Objects.requireNonNull(tenantId != null ? tenantId : TenantId.defaultTenant(), "tenantId cannot be null");
+        this.tenantId = Objects.requireNonNull(tenantId != null ? tenantId : TenantRef.defaultTenant(), "tenantId cannot be null");
         this.ledgerId = Objects.requireNonNull(ledgerId != null ? ledgerId : LedgerId.primary(), "ledgerId cannot be null");
         this.entryNumber = Objects.requireNonNull(entryNumber, "entryNumber cannot be null");
         this.entryDate = Objects.requireNonNull(entryDate, "entryDate cannot be null");
@@ -88,7 +88,7 @@ public final class JournalEntry extends AbstractAggregateRoot<JournalEntryId> im
     }
 
     public JournalEntry(JournalEntryId id, String entryNumber, Instant entryDate, String description) {
-        this(id, TenantId.defaultTenant(), LedgerId.primary(), entryNumber, entryDate, description);
+        this(id, TenantRef.defaultTenant(), LedgerId.primary(), entryNumber, entryDate, description);
     }
 
     @Override
@@ -96,7 +96,7 @@ public final class JournalEntry extends AbstractAggregateRoot<JournalEntryId> im
     public JournalEntryId getId() { return id; }
 
     @Override
-    public TenantId tenantId() { return tenantId; }
+    public TenantRef tenantId() { return tenantId; }
 
     @Override
     public LedgerId ledgerId() { return ledgerId; }

@@ -16,7 +16,10 @@
     <artifactId>syirkah-configuration-application</artifactId>
 
     <name>Syirkah Commerce Configuration - Application</name>
-    <description>ValidateConfiguration query handler (stateless, no writes)</description>
+    <description>
+        Configuration application: Create/Select/Deselect/Clear/Complete + Validate
+        (product02.md).
+    </description>
 
     <dependencies>
         <dependency>

@@ -362,11 +362,6 @@
                 <artifactId>syirkah-product-adapter</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>tech.kayys.syirkah</groupId>
-                <artifactId>syirkah-product-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <!-- Test and static-analysis dependencies -->
             <dependency>

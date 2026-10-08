@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.billing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class UsageRecordId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record UsageRecordId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public UsageRecordId(UUID value) {
-        super(value);
+    public UsageRecordId {
+        Objects.requireNonNull(value, "UsageRecordId value cannot be null");
     }
 
     public static UsageRecordId of(UUID value) {

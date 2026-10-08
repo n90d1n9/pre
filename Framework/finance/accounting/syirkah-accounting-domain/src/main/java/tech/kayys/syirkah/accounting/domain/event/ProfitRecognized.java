@@ -1,7 +1,7 @@
 package tech.kayys.syirkah.accounting.domain.event;
 
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -14,7 +14,7 @@ import java.util.UUID;
 public record ProfitRecognized(
         UUID eventId,
         Instant occurredAt,
-        TenantId tenantId,
+        TenantRef tenantId,
         LedgerId ledgerId,
         String correlationId,
         String causationId,
@@ -26,7 +26,7 @@ public record ProfitRecognized(
 
     /** Convenience factory. */
     public static ProfitRecognized of(
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             String contractId,
             int periodNumber,

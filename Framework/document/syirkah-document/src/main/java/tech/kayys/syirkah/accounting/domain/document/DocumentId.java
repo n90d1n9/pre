@@ -1,10 +1,12 @@
 package tech.kayys.syirkah.accounting.domain.document;
 
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
+
 import java.util.Objects;
 import java.util.UUID;
 
 /** Stable identity of a {@link Document} aggregate. */
-public record DocumentId(String value) {
+public record DocumentId(String value) implements DomainId<String> {
     public DocumentId {
         Objects.requireNonNull(value, "value");
         if (value.isBlank()) throw new IllegalArgumentException("DocumentId must not be blank");

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-commerce</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-promotion-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Syirkah Commerce - Promotion Aggregator</name>
+    <description>
+        Commerce Promotion Capability (product01.md Phase F + product03.md):
+        Promotion / PromotionRule / conditions / actions / stacking policy /
+        PromotionEngine / PromotionCompiler / PromotionResult.
+        Applies one or more promotions to a priced cart (PriceResult).
+        Default stacking is BEST_RESULT (single winner, v1-compatible);
+        STACK and EXCLUSIVE are supported. Consumes pricing downstream only.
+    </description>
+
+    <modules>
+        <module>syirkah-promotion-domain</module>
+        <module>syirkah-promotion-spi</module>
+        <module>syirkah-promotion-application</module>
+        <module>syirkah-promotion-adapter</module>
+    </modules>
+
+</project>

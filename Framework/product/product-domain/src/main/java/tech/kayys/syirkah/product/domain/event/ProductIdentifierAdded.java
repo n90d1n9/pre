@@ -1,7 +1,7 @@
 package tech.kayys.syirkah.product.domain.event;
 
 import tech.kayys.syirkah.foundation.domain.event.DomainEvent;
-import tech.kayys.syirkah.product.domain.identifier.IdentifierType;
+import tech.kayys.syirkah.product.domain.identifier.ProductIdentifierType;
 import tech.kayys.syirkah.product.domain.product.ProductId;
 
 import java.time.Instant;
@@ -11,7 +11,7 @@ public record ProductIdentifierAdded(
         UUID eventId,
         Instant occurredAt,
         ProductId productId,
-        IdentifierType identifierType,
+        ProductIdentifierType identifierType,
         String value
 ) implements DomainEvent {
 

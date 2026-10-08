@@ -1,19 +1,18 @@
 package tech.kayys.syirkah.purchasing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Identifier for vendor contracts.
  */
-public final class ContractId extends Identifier<String> {
+public record ContractId(String value) implements DomainId<String>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private ContractId(String value) {
-        super(value);
+    public ContractId {
+        Objects.requireNonNull(value, "ContractId value cannot be null");
     }
 
     public static ContractId of(String value) {

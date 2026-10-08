@@ -28,7 +28,8 @@ public class FiscalPeriodResource {
     @Inject
     FiscalPeriodRepository fiscalPeriodRepository;
 
-    public record YearEndClosingRequest(int year, UUID retainedEarningsAccountId, String closedBy) {}
+    
+public record YearEndClosingRequest(int year, UUID retainedEarningsAccountId, String closedBy) {}
 
     @GET
     @Operation(summary = "List all fiscal periods")

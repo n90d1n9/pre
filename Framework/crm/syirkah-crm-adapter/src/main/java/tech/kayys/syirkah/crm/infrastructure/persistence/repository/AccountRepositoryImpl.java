@@ -1,7 +1,6 @@
 package tech.kayys.syirkah.crm.infrastructure.persistence.repository;
 
 import io.quarkus.hibernate.reactive.panache.Panache;
-import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import tech.kayys.syirkah.crm.domain.account.Account;
 import tech.kayys.syirkah.crm.domain.identifier.AccountId;
@@ -23,7 +22,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Account> save(Account account) {
         AccountEntity entity = mapper.toEntity(account);
         return Panache.withTransaction(() -> entity.<AccountEntity>persist()
@@ -32,33 +30,29 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    @WithSession
     public CompletionStage<Optional<Account>> findById(AccountId id) {
-        return AccountEntity.<AccountEntity>findById(id.getValue())
+    return Panache.withSession(() -> AccountEntity.<AccountEntity>findById(id.getValue())
                 .map(entity -> entity == null
-                        ? Optional.empty() : Optional.of(mapper.toDomain(entity)))
-                .subscribe().asCompletionStage();
+                        ? Optional.<Account>empty() : Optional.of(mapper.toDomain(entity)))
+                ).subscribe().asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Boolean> existsById(AccountId id) {
-        return AccountEntity.findById(id.getValue())
+    return Panache.withSession(() -> AccountEntity.findById(id.getValue())
                 .map(entity -> entity != null)
-                .subscribe().asCompletionStage();
+                ).subscribe().asCompletionStage();
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Void> delete(Account account) {
         return deleteById(account.id());
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Void> deleteById(AccountId id) {
-        return AccountEntity.deleteById(id.getValue())
+    return Panache.withTransaction(() -> AccountEntity.deleteById(id.getValue())
                 .map(ignored -> (Void) null)
-                .subscribe().asCompletionStage();
+                ).subscribe().asCompletionStage();
     }
 }

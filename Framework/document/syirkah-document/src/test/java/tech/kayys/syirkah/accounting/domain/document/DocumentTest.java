@@ -41,4 +41,43 @@ class DocumentTest {
         assertEquals(DocumentStatus.ARCHIVED, doc.status());
         assertThrows(IllegalStateException.class, () -> doc.addVersion("h2", "s3://2", meta));
     }
+
+    @Test
+    void publishes_current_version_and_emits_domain_events() {
+        var doc = new Document(
+                DocumentId.generate(),
+                DocumentType.CONTRACT,
+                DocumentClassification.CONFIDENTIAL,
+                DocumentMetadata.of("contract.pdf", "application/pdf", 10),
+                "hash",
+                "documents/key"
+        );
+
+        assertEquals(1, doc.pullDomainEvents().size());
+        doc.publish();
+
+        assertEquals(DocumentStatus.PUBLISHED, doc.status());
+        var events = doc.pullDomainEvents();
+        assertEquals(1, events.size());
+        assertInstanceOf(DocumentPublished.class, events.getFirst());
+    }
+
+    @Test
+    void published_document_can_not_be_versioned() {
+        var doc = new Document(
+                DocumentId.generate(),
+                DocumentType.CONTRACT,
+                DocumentClassification.CONFIDENTIAL,
+                DocumentMetadata.of("contract.pdf", "application/pdf", 10),
+                "hash",
+                "documents/key"
+        );
+
+        doc.publish();
+
+        assertThrows(
+                IllegalStateException.class,
+                () -> doc.addVersion("new-hash", "documents/new-key", null)
+        );
+    }
 }

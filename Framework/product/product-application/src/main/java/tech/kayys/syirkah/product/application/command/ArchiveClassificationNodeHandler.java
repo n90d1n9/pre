@@ -1,0 +1,67 @@
+package tech.kayys.syirkah.product.application.command;
+
+import io.smallrye.mutiny.Uni;
+import tech.kayys.syirkah.foundation.application.command.CommandHandler;
+import tech.kayys.syirkah.foundation.application.event.EventPublisher;
+import tech.kayys.syirkah.foundation.application.result.ApplicationError;
+import tech.kayys.syirkah.foundation.application.result.Result;
+import tech.kayys.syirkah.product.domain.classification.ClassificationNode;
+import tech.kayys.syirkah.product.domain.classification.ClassificationNodeId;
+import tech.kayys.syirkah.product.spi.port.ClassificationNodeRepository;
+
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Archives an active classification node. The state guard is enforced by
+ * the aggregate itself.
+ */
+public final class ArchiveClassificationNodeHandler
+        implements CommandHandler<
+        ArchiveClassificationNodeCommand, Result<ClassificationNodeId>> {
+
+    private static final ApplicationError NOT_FOUND =
+            ApplicationError.of(
+                    "CLASSIFICATION_NODE_NOT_FOUND",
+                    "Classification node does not exist"
+            );
+
+    private final ClassificationNodeRepository nodes;
+    private final EventPublisher eventPublisher;
+
+    public ArchiveClassificationNodeHandler(
+            ClassificationNodeRepository nodes,
+            EventPublisher eventPublisher
+    ) {
+        this.nodes = Objects.requireNonNull(nodes);
+        this.eventPublisher = Objects.requireNonNull(eventPublisher);
+    }
+
+    @Override
+    public Uni<Result<ClassificationNodeId>> handle(
+            ArchiveClassificationNodeCommand command
+    ) {
+        return Uni.createFrom()
+                .completionStage(nodes.findById(command.nodeId()))
+                .onItem()
+                .transformToUni(this::archive);
+    }
+
+    private Uni<Result<ClassificationNodeId>> archive(
+            Optional<ClassificationNode> maybeNode
+    ) {
+        if (maybeNode.isEmpty()) {
+            return Uni.createFrom().item(Result.failure(NOT_FOUND));
+        }
+
+        var node = maybeNode.get();
+        node.archive();
+
+        return Uni.createFrom()
+                .completionStage(nodes.save(node))
+                .onItem()
+                .transformToUni(saved -> eventPublisher
+                        .publish(saved.pullDomainEvents())
+                        .replaceWith(Result.success(saved.id())));
+    }
+}

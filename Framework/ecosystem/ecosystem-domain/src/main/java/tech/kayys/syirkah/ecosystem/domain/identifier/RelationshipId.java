@@ -1,7 +1,9 @@
 package tech.kayys.syirkah.ecosystem.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -9,12 +11,10 @@ import java.util.UUID;
  * Syirkah understand "PT XYZ buys from PT ABC" or "PT ABC serves
  * 200 merchants" without hard-coding either side.
  */
-public final class RelationshipId extends Identifier<UUID> {
+public record RelationshipId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public RelationshipId(UUID value) {
-        super(value);
+    public RelationshipId {
+        Objects.requireNonNull(value, "RelationshipId value cannot be null");
     }
 
     public static RelationshipId of(UUID value) {

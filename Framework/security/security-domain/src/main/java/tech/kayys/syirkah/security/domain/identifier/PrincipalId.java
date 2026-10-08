@@ -1,16 +1,16 @@
 package tech.kayys.syirkah.security.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /** Identifies an authenticated principal: a user account or a service. */
-public final class PrincipalId extends Identifier<UUID> {
+public record PrincipalId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public PrincipalId(UUID value) {
-        super(value);
+    public PrincipalId {
+        Objects.requireNonNull(value, "PrincipalId value cannot be null");
     }
 
     public static PrincipalId of(UUID value) {

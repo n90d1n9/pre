@@ -20,7 +20,7 @@ import tech.kayys.syirkah.accounting.domain.compliance.ComplianceConfiguration;
 import tech.kayys.syirkah.accounting.domain.identifier.*;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.model.*;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.accounting.domain.report.TrialBalance;
 import tech.kayys.syirkah.accounting.domain.valueobject.AccountType;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;
@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CqrsAndOutboxTest {
 
     private final Currency usd = Currency.of("USD");
-    private final TenantId tenant = TenantId.of("acme-corp");
+    private final TenantRef tenant = TenantRef.of("acme-corp");
     private final LedgerId ledger = LedgerId.primary();
 
     private final Map<AccountId, Account> accounts = new ConcurrentHashMap<>();

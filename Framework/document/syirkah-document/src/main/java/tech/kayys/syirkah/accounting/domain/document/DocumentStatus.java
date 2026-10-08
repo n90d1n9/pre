@@ -2,5 +2,5 @@ package tech.kayys.syirkah.accounting.domain.document;
 
 /** Lifecycle status of a document. */
 public enum DocumentStatus {
-    ACTIVE, ARCHIVED, DELETED
+    ACTIVE, PUBLISHED, ARCHIVED, DELETED
 }

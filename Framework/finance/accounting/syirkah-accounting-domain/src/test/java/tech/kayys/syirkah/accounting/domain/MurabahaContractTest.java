@@ -7,7 +7,7 @@ import tech.kayys.syirkah.accounting.domain.event.MurabahaSettled;
 import tech.kayys.syirkah.accounting.domain.event.ProfitRecognized;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.model.MurabahaContract;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("MurabahaContract — AAOIFI Lite / PSAK 102")
 class MurabahaContractTest {
 
-    private static final TenantId TENANT = new TenantId("tenant-acme");
+    private static final TenantRef TENANT = new TenantRef("tenant-acme");
     private static final LedgerId LEDGER = new LedgerId("SHARIAH");
 
     private static MurabahaContract sampleContract() {

@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.communication.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Message identifier.
  */
-public final class MessageId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record MessageId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public MessageId(UUID value) {
-        super(value);
+    public MessageId {
+        Objects.requireNonNull(value, "MessageId value cannot be null");
     }
 
     public static MessageId of(UUID value) {

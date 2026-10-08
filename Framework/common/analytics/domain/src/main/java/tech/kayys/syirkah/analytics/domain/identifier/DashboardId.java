@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.analytics.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Dashboard identifier.
  */
-public final class DashboardId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record DashboardId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public DashboardId(UUID value) {
-        super(value);
+    public DashboardId {
+        Objects.requireNonNull(value, "DashboardId value cannot be null");
     }
 
     public static DashboardId of(UUID value) {

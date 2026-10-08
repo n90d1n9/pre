@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.hris.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Training program identifier.
  */
-public final class TrainingId extends Identifier<UUID> {
+public record TrainingId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public TrainingId(UUID value) {
-        super(value);
+    public TrainingId {
+        Objects.requireNonNull(value, "TrainingId value cannot be null");
     }
 
     public static TrainingId of(UUID value) {

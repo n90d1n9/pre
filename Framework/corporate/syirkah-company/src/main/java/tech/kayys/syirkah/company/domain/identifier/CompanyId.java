@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.company.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Company identifier.
  */
-public final class CompanyId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record CompanyId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public CompanyId(UUID value) {
-        super(value);
+    public CompanyId {
+        Objects.requireNonNull(value, "CompanyId value cannot be null");
     }
 
     public static CompanyId of(UUID value) {

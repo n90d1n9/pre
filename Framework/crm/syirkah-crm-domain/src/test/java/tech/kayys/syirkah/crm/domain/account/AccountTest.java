@@ -3,8 +3,10 @@ package tech.kayys.syirkah.crm.domain.account;
 import org.junit.jupiter.api.Test;
 import tech.kayys.syirkah.crm.domain.identifier.AccountId;
 import tech.kayys.syirkah.crm.domain.valueobject.AccountStatus;
+import tech.kayys.syirkah.crm.domain.valueobject.PartyRole;
 import tech.kayys.syirkah.ecosystem.domain.identifier.ParticipantId;
 
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,7 +32,7 @@ class AccountTest {
         assertThrows(IllegalArgumentException.class, () -> account.assignParent(accountId));
         assertThrows(IllegalArgumentException.class,
                 () -> Account.restore(accountId, ParticipantId.generate(), "Acme",
-                        AccountStatus.ACTIVE, accountId));
+                        AccountStatus.ACTIVE, accountId, Set.of()));
     }
 
     @Test

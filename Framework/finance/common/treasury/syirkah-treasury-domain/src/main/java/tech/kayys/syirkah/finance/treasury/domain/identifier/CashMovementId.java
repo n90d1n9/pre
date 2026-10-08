@@ -1,12 +1,19 @@
 package tech.kayys.syirkah.finance.treasury.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class CashMovementId extends Identifier<UUID> {
-    private static final long serialVersionUID = 1L;
-
-    public CashMovementId(UUID value) { super(value); }
+public record CashMovementId(UUID value) implements DomainId<UUID>, Serializable {
+        public CashMovementId {
+        Objects.requireNonNull(value, "CashMovementId value cannot be null");
+    }
     public static CashMovementId of(UUID value) { return new CashMovementId(value); }
     public static CashMovementId generate() { return new CashMovementId(UUID.randomUUID()); }
+
+    @Override
+    public String toString() {
+        return value != null ? value.toString() : "";
+    }
 }

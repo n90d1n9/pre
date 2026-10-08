@@ -2,7 +2,7 @@ package tech.kayys.syirkah.accounting.domain.event;
 
 import tech.kayys.syirkah.accounting.domain.identifier.JournalEntryId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -10,7 +10,7 @@ import java.util.UUID;
 public record JournalEntryReversed(
         UUID eventId,
         Instant occurredAt,
-        TenantId tenantId,
+        TenantRef tenantId,
         LedgerId ledgerId,
         JournalEntryId originalEntryId,
         JournalEntryId reversalEntryId,
@@ -19,7 +19,7 @@ public record JournalEntryReversed(
         String correlationId,
         String causationId
 ) implements AccountingEvent {
-    public static JournalEntryReversed of(TenantId tenantId, LedgerId ledgerId, JournalEntryId origId, JournalEntryId revId, String by, String reason, String corrId, String causId) {
+    public static JournalEntryReversed of(TenantRef tenantId, LedgerId ledgerId, JournalEntryId origId, JournalEntryId revId, String by, String reason, String corrId, String causId) {
         return new JournalEntryReversed(UUID.randomUUID(), Instant.now(), tenantId, ledgerId, origId, revId, by, reason, corrId, causId);
     }
 }

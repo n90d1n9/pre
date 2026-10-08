@@ -1,7 +1,8 @@
 package tech.kayys.syirkah.event.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -11,12 +12,10 @@ import java.util.Objects;
  * originate outside Syirkah (an HTTP header, a partner's message id) and
  * must survive round trips unchanged.
  */
-public final class CorrelationId extends Identifier<String> {
+public record CorrelationId(String value) implements DomainId<String>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public CorrelationId(String value) {
-        super(requireText(value));
+    public CorrelationId {
+        value = requireText(value);
     }
 
     public static CorrelationId of(String value) {

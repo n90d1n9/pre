@@ -67,7 +67,10 @@ class DomainArchitectureTest {
                         "tech.kayys.syirkah.foundation.domain.event..",
                         "tech.kayys.syirkah.foundation.domain.time..",
                         "tech.kayys.syirkah.foundation.domain.exception..",
-                        "tech.kayys.syirkah.foundation.domain.repository.."
+                        "tech.kayys.syirkah.foundation.domain.repository..",
+                        "tech.kayys.syirkah.foundation.domain.tenant..",
+                        "tech.kayys.syirkah.foundation.domain.ref..",
+                        "tech.kayys.syirkah.foundation.domain.audit.."
                 )
                 .because("undisciplined packages are how a foundation module "
                         + "quietly turns into a junk-drawer 'common' library")

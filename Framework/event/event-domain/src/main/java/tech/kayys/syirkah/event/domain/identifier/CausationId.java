@@ -1,7 +1,8 @@
 package tech.kayys.syirkah.event.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -11,12 +12,10 @@ import java.util.Objects;
  * "which step produced this one". With both, a support engineer can
  * reconstruct the chain that produced a wrong-looking event.
  */
-public final class CausationId extends Identifier<String> {
+public record CausationId(String value) implements DomainId<String>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public CausationId(String value) {
-        super(requireText(value));
+    public CausationId {
+        value = requireText(value);
     }
 
     public static CausationId of(String value) {

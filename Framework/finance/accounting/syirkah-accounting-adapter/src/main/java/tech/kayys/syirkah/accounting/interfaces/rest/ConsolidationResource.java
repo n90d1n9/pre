@@ -29,7 +29,8 @@ public class ConsolidationResource {
     @Inject
     OwnershipEngine ownershipEngine;
 
-    public record DefineGroupRequest(String groupId, String groupCode, String name, String reportingCurrency, String scope) {}
+    
+public record DefineGroupRequest(String groupId, String groupCode, String name, String reportingCurrency, String scope) {}
     public record StartRunRequest(String tenantId, LocalDate periodEnd, String presentationCurrency) {}
     public record EffectiveOwnershipRequest(BigDecimal[] holdingChainPercentages) {}
 

@@ -33,6 +33,23 @@ import java.util.UUID;
  */
 public final class Product extends AbstractAggregateRoot<ProductId> {
 
+    /**
+     * Maximum length of the product name.
+     *
+     * <p>Carried over from the retired {@code product-core} value object
+     * {@code ProductName} during the Product 1.0 consolidation, so removing
+     * that module does not silently drop the invariant.</p>
+     */
+    public static final int MAX_NAME_LENGTH = 512;
+
+    /**
+     * Maximum length of the product description.
+     *
+     * <p>Carried over from the retired {@code product-core} value object
+     * {@code ProductDescription} during the Product 1.0 consolidation.</p>
+     */
+    public static final int MAX_DESCRIPTION_LENGTH = 10_000;
+
     private String code;
 
     private String name;
@@ -55,8 +72,8 @@ public final class Product extends AbstractAggregateRoot<ProductId> {
         super(id);
 
         this.code = requireText(code, "Product code");
-        this.name = requireText(name, "Product name");
-        this.description = normalize(description);
+        this.name = requireName(name);
+        this.description = normalizeDescription(description);
         this.type = Objects.requireNonNull(
                 type,
                 "Product type cannot be null"
@@ -138,7 +155,7 @@ public final class Product extends AbstractAggregateRoot<ProductId> {
     public void rename(String newName) {
         ensureMutable();
 
-        String normalized = requireText(newName, "Product name");
+        String normalized = requireName(newName);
 
         if (normalized.equals(name)) {
             return;
@@ -161,7 +178,7 @@ public final class Product extends AbstractAggregateRoot<ProductId> {
     public void changeDescription(String newDescription) {
         ensureMutable();
 
-        String normalized = normalize(newDescription);
+        String normalized = normalizeDescription(newDescription);
 
         if (Objects.equals(normalized, description)) {
             return;
@@ -263,8 +280,46 @@ public final class Product extends AbstractAggregateRoot<ProductId> {
         return value.trim();
     }
 
-    private static String normalize(String value) {
-        return value == null ? null : value.trim();
+    /**
+     * Product name invariant: 1-{@value #MAX_NAME_LENGTH} characters.
+     */
+    private static String requireName(String value) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Product name cannot be blank"
+            );
+        }
+
+        String normalized = value.trim();
+
+        if (normalized.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException(
+                    "Product name must not exceed " + MAX_NAME_LENGTH + " characters"
+            );
+        }
+
+        return normalized;
+    }
+
+    /**
+     * Product description invariant: optional, but at most
+     * {@value #MAX_DESCRIPTION_LENGTH} characters when present.
+     */
+    private static String normalizeDescription(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        String normalized = value.trim();
+
+        if (normalized.length() > MAX_DESCRIPTION_LENGTH) {
+            throw new IllegalArgumentException(
+                    "Product description must not exceed "
+                            + MAX_DESCRIPTION_LENGTH + " characters"
+            );
+        }
+
+        return normalized;
     }
 
     public String code() {

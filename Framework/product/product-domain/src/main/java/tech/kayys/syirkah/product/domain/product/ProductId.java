@@ -22,4 +22,8 @@ public record ProductId(UUID value) implements DomainId<UUID> {
     public static ProductId of(UUID value) {
         return new ProductId(value);
     }
+
+    public static ProductId fromString(String value) {
+        return new ProductId(UUID.fromString(value));
+    }
 }

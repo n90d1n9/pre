@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.billing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Invoice batch identifier for batch billing.
  */
-public final class InvoiceBatchId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record InvoiceBatchId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public InvoiceBatchId(UUID value) {
-        super(value);
+    public InvoiceBatchId {
+        Objects.requireNonNull(value, "InvoiceBatchId value cannot be null");
     }
 
     public static InvoiceBatchId of(UUID value) {

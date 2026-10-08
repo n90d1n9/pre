@@ -1,7 +1,6 @@
 package tech.kayys.syirkah.crm.infrastructure.persistence.repository;
 
 import io.quarkus.hibernate.reactive.panache.Panache;
-import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import tech.kayys.syirkah.crm.domain.identifier.LeadId;
 import tech.kayys.syirkah.crm.domain.model.Lead;
@@ -31,7 +30,6 @@ public class LeadRepositoryImpl implements LeadRepository {
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Lead> save(Lead lead) {
         LeadEntity entity = mapper.toEntity(lead);
         
@@ -48,115 +46,102 @@ public class LeadRepositoryImpl implements LeadRepository {
     }
 
     @Override
-    @WithSession
     public CompletionStage<Optional<Lead>> findById(LeadId id) {
-        io.smallrye.mutiny.Uni<LeadEntity> uni = LeadEntity.findById(id.getValue());
-        return uni
+    return Panache.withSession(() -> LeadEntity.findById(id.getValue())
             .map(entity -> entity == null ? Optional.<Lead>empty() : Optional.of(mapper.toDomain(entity)))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Boolean> existsById(LeadId id) {
-        io.smallrye.mutiny.Uni<LeadEntity> uni = LeadEntity.findById(id.getValue());
-        return uni
+    return Panache.withSession(() -> LeadEntity.findById(id.getValue())
             .map(entity -> entity != null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Void> delete(Lead lead) {
-        return LeadEntity.deleteById(lead.getId().getValue())
+    return Panache.withTransaction(() -> LeadEntity.deleteById(lead.getId().getValue())
             .map(v -> (Void) null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Void> deleteById(LeadId id) {
-        return LeadEntity.deleteById(id.getValue())
+    return Panache.withTransaction(() -> LeadEntity.deleteById(id.getValue())
             .map(v -> (Void) null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Lead>> findByStatus(LeadStatus status) {
-        return LeadEntity.<LeadEntity>list("status = ?1", status)
+    return Panache.withSession(() -> LeadEntity.<LeadEntity>list("status = ?1", status)
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Lead>> findByEmail(String email) {
-        return LeadEntity.<LeadEntity>list("email = ?1", email)
+    return Panache.withSession(() -> LeadEntity.<LeadEntity>list("email = ?1", email)
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Lead>> findByAssignedTo(UserId assignedTo) {
-        return LeadEntity.<LeadEntity>list("assignedTo = ?1", assignedTo.value())
+    return Panache.withSession(() -> LeadEntity.<LeadEntity>list("assignedTo = ?1", assignedTo.value())
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Lead>> findActiveLeads() {
-        return LeadEntity.<LeadEntity>list("active = true")
+    return Panache.withSession(() -> LeadEntity.<LeadEntity>list("active = true")
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Lead>> findQualifiedLeads() {
-        return LeadEntity.<LeadEntity>list("status in ?1", 
+    return Panache.withSession(() -> LeadEntity.<LeadEntity>list("status in ?1", 
                 List.of(LeadStatus.QUALIFIED, LeadStatus.NURTURING))
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Lead>> findByScoreGreaterThan(double score) {
-        return LeadEntity.<LeadEntity>list("score >= ?1", score)
+    return Panache.withSession(() -> LeadEntity.<LeadEntity>list("score >= ?1", score)
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Long> countByStatus(LeadStatus status) {
-        return LeadEntity.count("status = ?1", status)
-            .subscribe()
+    return Panache.withSession(() -> LeadEntity.count("status = ?1", status)
+            ).subscribe()
             .asCompletionStage();
     }
 }

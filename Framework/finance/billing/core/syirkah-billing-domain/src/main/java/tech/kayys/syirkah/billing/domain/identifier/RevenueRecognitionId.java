@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.billing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class RevenueRecognitionId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record RevenueRecognitionId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public RevenueRecognitionId(UUID value) {
-        super(value);
+    public RevenueRecognitionId {
+        Objects.requireNonNull(value, "RevenueRecognitionId value cannot be null");
     }
 
     public static RevenueRecognitionId of(UUID value) {

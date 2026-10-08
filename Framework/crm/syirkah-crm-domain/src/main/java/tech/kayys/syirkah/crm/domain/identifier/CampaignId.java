@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class CampaignId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record CampaignId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public CampaignId(UUID value) {
-        super(value);
+    public CampaignId {
+        Objects.requireNonNull(value, "CampaignId value cannot be null");
     }
 
     public static CampaignId of(UUID value) {

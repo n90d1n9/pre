@@ -14,6 +14,9 @@ public record DocumentMetadata(
     public DocumentMetadata {
         Objects.requireNonNull(filename, "filename");
         Objects.requireNonNull(contentType, "contentType");
+        if (filename.isBlank() || contentType.isBlank()) {
+            throw new IllegalArgumentException("filename and contentType must not be blank");
+        }
         if (fileSize < 0) throw new IllegalArgumentException("fileSize must not be negative");
         customAttributes = customAttributes == null ? Map.of() : Map.copyOf(customAttributes);
     }

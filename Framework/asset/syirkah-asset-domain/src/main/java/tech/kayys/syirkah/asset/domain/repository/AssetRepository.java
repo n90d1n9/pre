@@ -1,83 +1,26 @@
 package tech.kayys.syirkah.asset.domain.repository;
 
-import tech.kayys.syirkah.foundation.domain.repository.Repository;
 import tech.kayys.syirkah.asset.domain.identifier.AssetId;
-import tech.kayys.syirkah.asset.domain.identifier.AssetCategoryId;
 import tech.kayys.syirkah.asset.domain.model.Asset;
-import tech.kayys.syirkah.asset.domain.valueobject.AssetStatus;
-import tech.kayys.syirkah.asset.domain.valueobject.AssetType;
+import tech.kayys.syirkah.foundation.domain.repository.Repository;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 /**
- * Repository for Asset aggregates.
+ * Outbound persistence port for the {@link Asset} aggregate.
+ *
+ * <p>Tenant isolation is <strong>structural</strong>: the tenant-scoped
+ * methods exist so a caller can never load or mutate another tenant's asset
+ * merely by knowing its UUID (see ASSET-09 / ASSET-10).</p>
  */
 public interface AssetRepository extends Repository<Asset, AssetId> {
 
-    /**
-     * Finds assets by status.
-     */
-    CompletionStage<List<Asset>> findByStatus(AssetStatus status);
+    CompletionStage<Boolean> existsByAssetNumber(String tenantId, String assetNumber);
 
-    /**
-     * Finds assets by type.
-     */
-    CompletionStage<List<Asset>> findByType(AssetType type);
+    CompletionStage<Optional<Asset>> findByTenantAndId(String tenantId, AssetId assetId);
 
-    /**
-     * Finds assets by category.
-     */
-    CompletionStage<List<Asset>> findByCategory(AssetCategoryId categoryId);
+    CompletionStage<Boolean> existsByTenantAndId(String tenantId, AssetId assetId);
 
-    /**
-     * Finds assets assigned to a person.
-     */
-    CompletionStage<List<Asset>> findByAssignedTo(String assignedTo);
-
-    /**
-     * Finds assets by department.
-     */
-    CompletionStage<List<Asset>> findByDepartment(String department);
-
-    /**
-     * Finds assets by location.
-     */
-    CompletionStage<List<Asset>> findByLocation(String location);
-
-    /**
-     * Finds assets acquired between dates.
-     */
-    CompletionStage<List<Asset>> findAcquiredBetween(LocalDate start, LocalDate end);
-
-    /**
-     * Finds assets needing maintenance.
-     */
-    CompletionStage<List<Asset>> findAssetsNeedingMaintenance();
-
-    /**
-     * Finds assets fully depreciated.
-     */
-    CompletionStage<List<Asset>> findFullyDepreciatedAssets();
-
-    /**
-     * Finds assets by serial number.
-     */
-    CompletionStage<Asset> findBySerialNumber(String serialNumber);
-
-    /**
-     * Finds assets by asset number.
-     */
-    CompletionStage<Asset> findByAssetNumber(String assetNumber);
-
-    /**
-     * Counts assets by status.
-     */
-    CompletionStage<Long> countByStatus(AssetStatus status);
-
-    /**
-     * Counts assets by type.
-     */
-    CompletionStage<Long> countByType(AssetType type);
+    CompletionStage<Void> deleteByTenantAndId(String tenantId, AssetId assetId);
 }

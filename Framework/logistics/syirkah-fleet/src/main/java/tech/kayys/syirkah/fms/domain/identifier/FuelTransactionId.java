@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.fms.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class FuelTransactionId extends Identifier<UUID> {
+public record FuelTransactionId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public FuelTransactionId(UUID value) {
-        super(value);
+    public FuelTransactionId {
+        Objects.requireNonNull(value, "FuelTransactionId value cannot be null");
     }
 
     public static FuelTransactionId of(UUID value) {

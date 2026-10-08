@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.company.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Role identifier.
  */
-public final class RoleId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record RoleId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public RoleId(UUID value) {
-        super(value);
+    public RoleId {
+        Objects.requireNonNull(value, "RoleId value cannot be null");
     }
 
     public static RoleId of(UUID value) {

@@ -16,7 +16,10 @@
     <artifactId>syirkah-configuration-domain</artifactId>
 
     <name>Syirkah Commerce Configuration - Domain</name>
-    <description>ProductConfiguration, SelectedOption, ConfigurationValidator (Phase E)</description>
+    <description>
+        ProductConfiguration aggregate, SelectedOption, ConfigurationValidator
+        (product01 Phase E + product02.md).
+    </description>
 
     <dependencies>
         <dependency>

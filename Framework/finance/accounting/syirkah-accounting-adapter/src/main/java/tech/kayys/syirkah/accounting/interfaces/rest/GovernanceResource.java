@@ -30,7 +30,8 @@ public class GovernanceResource {
     @Inject
     IdempotencyGuard idempotencyGuard;
 
-    public record SoDCheckRequest(String maker, String checker, String operation) {}
+    
+public record SoDCheckRequest(String maker, String checker, String operation) {}
     public record IdempotencyCheckRequest(String idempotencyKey) {}
 
     @GET

@@ -4,7 +4,7 @@ import tech.kayys.syirkah.accounting.domain.event.MurabahaCreated;
 import tech.kayys.syirkah.accounting.domain.event.MurabahaSettled;
 import tech.kayys.syirkah.accounting.domain.event.ProfitRecognized;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public final class MurabahaContract {
 
     private final String contractId;
-    private final TenantId tenantId;
+    private final TenantRef tenantId;
     private final LedgerId ledgerId;
     private final BigDecimal cost;
     private final BigDecimal margin;
@@ -41,7 +41,7 @@ public final class MurabahaContract {
 
     private MurabahaContract(
             String contractId,
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             BigDecimal cost,
             BigDecimal margin,
@@ -79,7 +79,7 @@ public final class MurabahaContract {
     /** Factory — creates and validates the contract, raises {@link MurabahaCreated}. */
     public static MurabahaContract create(
             String contractId,
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             BigDecimal cost,
             BigDecimal margin,
@@ -133,7 +133,7 @@ public final class MurabahaContract {
     // ─── Getters ────────────────────────────────────────────────────────────
 
     public String contractId()         { return contractId; }
-    public TenantId tenantId()         { return tenantId; }
+    public TenantRef tenantId()         { return tenantId; }
     public LedgerId ledgerId()         { return ledgerId; }
     public BigDecimal cost()           { return cost; }
     public BigDecimal margin()         { return margin; }

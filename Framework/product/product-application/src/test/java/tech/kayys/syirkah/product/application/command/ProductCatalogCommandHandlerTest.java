@@ -12,6 +12,7 @@ import tech.kayys.syirkah.product.domain.event.ProductSpecificationChanged;
 import tech.kayys.syirkah.product.domain.event.ProductVariantCreated;
 import tech.kayys.syirkah.product.domain.product.ProductId;
 import tech.kayys.syirkah.product.domain.product.ProductType;
+import tech.kayys.syirkah.product.domain.identifier.ProductIdentifier;
 import tech.kayys.syirkah.product.domain.sku.SkuIdentifier;
 import tech.kayys.syirkah.product.domain.sku.SkuIdentifierType;
 import tech.kayys.syirkah.product.domain.specification.AttributeDefinition;
@@ -62,6 +63,9 @@ class ProductCatalogCommandHandlerTest {
 
     private final AddSkuIdentifierHandler addSkuIdentifier =
             new AddSkuIdentifierHandler(skus, events);
+
+    private final AddProductIdentifierHandler addProductIdentifier =
+            new AddProductIdentifierHandler(products, events);
 
     private static String failureCode(Result<?> result) {
         return ((Result.Failure<?>) result).error().code();
@@ -251,5 +255,63 @@ class ProductCatalogCommandHandlerTest {
 
         assertTrue(result.isFailure());
         assertEquals("SKU_CODE_ALREADY_EXISTS", failureCode(result));
+    }
+
+    @Test
+    void addsProductIdentifierNormalized() {
+        ProductId productId = register("COFFEE-ESPRESSO", ProductType.PHYSICAL);
+
+        events.reset();
+
+        addProductIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                tech.kayys.syirkah.product.domain.identifier.ProductIdentifierType.GTIN,
+                                " 8991234567890"  // normalized to 8991234567890
+                        )
+                )
+        ).await().indefinitely().orElseThrow();
+
+        assertEquals(1, events.published().size());
+
+        var product = products.findById(productId)
+                .toCompletableFuture().join()
+                .orElseThrow();
+
+        assertEquals(1, product.identifiers().size());
+        assertEquals("8991234567890",
+                product.identifiers().getFirst().value());
+    }
+
+    @Test
+    void rejectsDuplicateProductIdentifierIdempotently() {
+        ProductId productId = register("TEA-GREEN", ProductType.PHYSICAL);
+
+        addProductIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                tech.kayys.syirkah.product.domain.identifier.ProductIdentifierType.EAN,
+                                "8991234567890"
+                        )
+                )
+        ).await().indefinitely().orElseThrow();
+
+        events.reset();
+
+        var result = addProductIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                tech.kayys.syirkah.product.domain.identifier.ProductIdentifierType.EAN,
+                                "8991234567890"
+                        )
+                )
+        ).await().indefinitely();
+
+        assertTrue(result.isFailure());
+        assertEquals("BUSINESS_RULE_VIOLATION", failureCode(result));
+        assertEquals(0, events.published().size());
     }
 }

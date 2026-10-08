@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>tech.kayys.syirkah</groupId>
-            <artifactId>finance-treasury-application</artifactId>
+            <artifactId>syirkah-treasury-application</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

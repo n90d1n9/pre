@@ -1,7 +1,9 @@
 package tech.kayys.syirkah.ecosystem.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -13,12 +15,10 @@ import java.util.UUID;
  * the same capability be offered by an internal team, a Syirkah service,
  * or an external 3PL - see {@code base00.md} §1 and §2.
  */
-public final class ProviderCapabilityId extends Identifier<UUID> {
+public record ProviderCapabilityId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public ProviderCapabilityId(UUID value) {
-        super(value);
+    public ProviderCapabilityId {
+        Objects.requireNonNull(value, "ProviderCapabilityId value cannot be null");
     }
 
     public static ProviderCapabilityId of(UUID value) {

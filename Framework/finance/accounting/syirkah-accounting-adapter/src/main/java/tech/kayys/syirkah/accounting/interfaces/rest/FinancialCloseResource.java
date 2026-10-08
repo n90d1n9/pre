@@ -22,7 +22,8 @@ public class FinancialCloseResource {
     @Inject
     FinancialCloseService closeService;
 
-    public record OpenCycleRequest(String cycleId, String tenantId, String ledgerId, String fiscalPeriodId) {}
+    
+public record OpenCycleRequest(String cycleId, String tenantId, String ledgerId, String fiscalPeriodId) {}
     public record CompleteTaskRequest(String user) {}
     public record ApproveCloseRequest(String approver) {}
 

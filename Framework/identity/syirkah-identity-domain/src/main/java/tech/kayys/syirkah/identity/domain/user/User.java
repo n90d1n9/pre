@@ -21,8 +21,9 @@ import java.util.UUID;
  * Deliberately does NOT know about tenants, organizations, roles, or
  * permissions. Multi-tenancy and authorization are Organization/
  * Authorization concerns that compose with Identity from the outside
- * (e.g. a separate Membership aggregate linking a UserId to a
- * TenantId with a Role) rather than living inside this aggregate.
+ * (for organizations, the OrganizationMembership aggregate links
+ * this UserId to an OrganizationId) rather than living inside this
+ * aggregate.
  * Keeping User this narrow is what lets it be reused unmodified across
  * POS, e-commerce, and marketplace products with very different
  * tenancy models.

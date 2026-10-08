@@ -26,7 +26,8 @@ public class WorkflowResource {
     @Inject
     WorkflowEngine workflowEngine;
 
-    public record StartProcessRequest(String processDefinitionId, Integer version, Map<String, Object> variables) {}
+    
+public record StartProcessRequest(String processDefinitionId, Integer version, Map<String, Object> variables) {}
     public record CompleteTaskRequest(String userId, Map<String, Object> taskOutput) {}
 
     @POST

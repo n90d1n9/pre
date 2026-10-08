@@ -64,10 +64,12 @@
         <module>identity</module>
         <module>corporate</module>
         <module>organization</module>
+        <module>tenancy</module>
 
         <!-- Phases 2-11 - business capability layers -->
         <module>commerce</module>
         <module>crm</module>
+        <module>support</module>
         <module>product</module>
         <module>supply</module>
         <module>finance</module>
@@ -77,10 +79,12 @@
         <module>logistics</module>
         <module>asset</module>
         <module>project</module>
+        <module>construction</module>
         <module>budget</module>
 
         <!-- Cross-cutting -->
         <module>common</module>
+        <module>document</module>
     </modules>
 
     <properties>
@@ -156,6 +160,26 @@
             <dependency>
                 <groupId>tech.kayys.syirkah</groupId>
                 <artifactId>syirkah-project-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-construction-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-construction-spi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-construction-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.kayys.syirkah</groupId>
+                <artifactId>syirkah-construction-adapter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

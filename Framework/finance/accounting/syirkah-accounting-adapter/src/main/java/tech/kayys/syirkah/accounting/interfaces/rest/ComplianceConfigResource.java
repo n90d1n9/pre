@@ -19,7 +19,8 @@ public class ComplianceConfigResource {
     @Inject
     AccountingComplianceEngine complianceEngine;
 
-    public record UpdateComplianceConfigRequest(
+    
+public record UpdateComplianceConfigRequest(
             String standard,
             boolean allowRibaAccounts,
             boolean enforceShariaContracts,

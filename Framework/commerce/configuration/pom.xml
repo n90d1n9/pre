@@ -18,10 +18,11 @@
 
     <name>Syirkah Commerce - Configuration Aggregator</name>
     <description>
-        Commerce Configuration Capability (product01.md Phase E):
-        transient customer selections validated against product
-        specifications, bridged to pricing. No persistence — selections
-        live only for the duration of a transaction.
+        Commerce Configuration Capability (product01.md Phase E + product02.md):
+        transient customer selections with status (DRAFT/VALID/INVALID/
+        COMPLETED/CANCELLED), validated against product specifications,
+        bridged to pricing. Selections are immutable value objects for the
+        duration of a transaction — not a durable product aggregate.
     </description>
 
     <modules>

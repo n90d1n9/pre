@@ -1,12 +1,20 @@
 package tech.kayys.syirkah.catalog.domain.event;
 
-import tech.kayys.syirkah.catalog.domain.model.Product;
-import tech.kayys.syirkah.catalog.domain.valueobject.Money;
+import tech.kayys.syirkah.catalog.domain.model.CatalogProduct;
+import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 import tech.kayys.syirkah.foundation.domain.event.DomainEvent;
 
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Catalog (bounded-context) domain event: a Catalog product's price
+ * changed.
+ *
+ * <p>This is <b>not</b> the Product foundation event. It carries
+ * catalog-listing fields (price, currency) that the Product foundation
+ * deliberately does not expose (product00.md).</p>
+ */
 public class ProductPriceChanged implements DomainEvent {
 
     private static final long serialVersionUID = 1L;
@@ -20,12 +28,12 @@ public class ProductPriceChanged implements DomainEvent {
     private final String newPrice;
     private final String currency;
 
-    public ProductPriceChanged(Product product, Money oldPrice, Money newPrice) {
+    public ProductPriceChanged(CatalogProduct product, Money oldPrice, Money newPrice) {
         this.eventId = UUID.randomUUID();
         this.eventType = "ProductPriceChanged";
         this.occurredAt = Instant.now();
         this.aggregateId = product.getId().toString();
-        this.aggregateType = "Product";
+        this.aggregateType = "CatalogProduct";
         this.oldPrice = oldPrice.getAmount().toPlainString();
         this.newPrice = newPrice.getAmount().toPlainString();
         this.currency = newPrice.getCurrency().getCurrencyCode();

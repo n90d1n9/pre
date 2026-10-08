@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Lead identifier.
  */
-public final class LeadId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record LeadId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public LeadId(UUID value) {
-        super(value);
+    public LeadId {
+        Objects.requireNonNull(value, "LeadId value cannot be null");
     }
 
     public static LeadId of(UUID value) {

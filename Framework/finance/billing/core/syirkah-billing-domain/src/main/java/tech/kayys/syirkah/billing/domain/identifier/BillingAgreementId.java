@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.billing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class BillingAgreementId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record BillingAgreementId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public BillingAgreementId(UUID value) {
-        super(value);
+    public BillingAgreementId {
+        Objects.requireNonNull(value, "BillingAgreementId value cannot be null");
     }
 
     public static BillingAgreementId of(UUID value) {

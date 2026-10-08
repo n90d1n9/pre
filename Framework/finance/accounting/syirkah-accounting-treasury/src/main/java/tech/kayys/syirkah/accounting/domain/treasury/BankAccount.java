@@ -3,7 +3,7 @@ package tech.kayys.syirkah.accounting.domain.treasury;
 
 import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;
 
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.Objects;
 public class BankAccount {
 
     private final String bankAccountId;
-    private final TenantId tenantId;
+    private final TenantRef tenantId;
     private final LedgerId ledgerId;
     private final AccountId generalLedgerAccountId;
     private final String bankName;
@@ -22,7 +22,7 @@ public class BankAccount {
 
     public BankAccount(
             String bankAccountId,
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             AccountId generalLedgerAccountId,
             String bankName,
@@ -41,7 +41,7 @@ public class BankAccount {
     }
 
     public String bankAccountId() { return bankAccountId; }
-    public TenantId tenantId() { return tenantId; }
+    public TenantRef tenantId() { return tenantId; }
     public LedgerId ledgerId() { return ledgerId; }
     public AccountId generalLedgerAccountId() { return generalLedgerAccountId; }
     public String bankName() { return bankName; }

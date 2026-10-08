@@ -4,9 +4,13 @@ import tech.kayys.syirkah.ecosystem.domain.identifier.ParticipantId;
 import tech.kayys.syirkah.foundation.domain.entity.AbstractAggregateRoot;
 import tech.kayys.syirkah.crm.domain.identifier.AccountId;
 import tech.kayys.syirkah.crm.domain.valueobject.AccountStatus;
+import tech.kayys.syirkah.crm.domain.valueobject.PartyRole;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * CRM's commercial context for an ecosystem participant.
@@ -17,12 +21,14 @@ public final class Account extends AbstractAggregateRoot<AccountId> {
     private AccountId parentAccountId;
     private String name;
     private AccountStatus status;
+    private Set<PartyRole> roles;
 
     private Account(AccountId id, ParticipantId participantId, String name) {
         super(Objects.requireNonNull(id, "id cannot be null"));
         this.participantId = Objects.requireNonNull(participantId, "participantId cannot be null");
         this.name = requireName(name);
         this.status = AccountStatus.ACTIVE;
+        this.roles = new HashSet<>();
     }
 
     public static Account create(AccountId id, ParticipantId participantId, String name) {
@@ -31,10 +37,16 @@ public final class Account extends AbstractAggregateRoot<AccountId> {
 
     public static Account restore(AccountId id, ParticipantId participantId, String name,
                                   AccountStatus status, AccountId parentAccountId) {
+        return restore(id, participantId, name, status, parentAccountId, Collections.emptySet());
+    }
+
+    public static Account restore(AccountId id, ParticipantId participantId, String name,
+                                  AccountStatus status, AccountId parentAccountId, Set<PartyRole> roles) {
         Account account = new Account(id, participantId, name);
         account.status = Objects.requireNonNull(status, "status cannot be null");
         account.requireNotSelf(parentAccountId);
         account.parentAccountId = parentAccountId;
+        account.roles = Objects.requireNonNull(roles, "roles cannot be null");
         return account;
     }
 
@@ -86,6 +98,25 @@ public final class Account extends AbstractAggregateRoot<AccountId> {
         status = AccountStatus.ACTIVE;
         touch();
     }
+
+    public Set<PartyRole> partyRoles() {
+        return Collections.unmodifiableSet(roles);
+    }
+
+    public void addPartyRole(PartyRole role) {
+        this.roles.add(Objects.requireNonNull(role, "role cannot be null"));
+        touch();
+    }
+
+    public void removePartyRole(PartyRole role) {
+        this.roles.remove(Objects.requireNonNull(role, "role cannot be null"));
+        touch();
+    }
+
+    public boolean hasPartyRole(PartyRole role) {
+        return this.roles.contains(Objects.requireNonNull(role, "role cannot be null"));
+    }
+
 
     private void touch() {
         setUpdatedAt(Instant.now());

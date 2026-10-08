@@ -30,7 +30,8 @@ public class JournalEntryResource {
     @Inject
     JournalEntryRepository journalEntryRepository;
 
-    public record ReverseEntryRequest(String reversedBy, String reason) {}
+    
+public record ReverseEntryRequest(String reversedBy, String reason) {}
     public record ApprovalRequest(String approver) {}
 
     @GET

@@ -23,13 +23,11 @@
   </description>
 
   <dependencies>
-    <!-- Transitional runtime facade; migrate its legacy domain model to product-core. -->
-    <dependency>
-      <groupId>tech.kayys.syirkah</groupId>
-      <artifactId>syirkah-product-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
+    <!--
+      Transitional runtime facade; migrate its legacy com.saas.product.*
+      domain model to syirkah-product-domain (product-core was removed after
+      being consolidated into Product 1.0).
+    -->
     <!-- ── Core CDI / Arc ─────────────────────────────────────────────── -->
     <dependency>
       <groupId>io.quarkus</groupId>

@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.integration.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Identifies a partner's system that Syirkah exchanges data with.
  */
-public final class ExternalSystemId extends Identifier<UUID> {
+public record ExternalSystemId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public ExternalSystemId(UUID value) {
-        super(value);
+    public ExternalSystemId {
+        Objects.requireNonNull(value, "ExternalSystemId value cannot be null");
     }
 
     public static ExternalSystemId of(UUID value) {

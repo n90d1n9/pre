@@ -8,6 +8,7 @@ import tech.kayys.syirkah.kiosk.domain.identifier.KioskId;
 import tech.kayys.syirkah.kiosk.domain.identifier.KioskSessionId;
 import tech.kayys.syirkah.kiosk.domain.valueobject.*;
 
+import io.quarkus.arc.properties.IfBuildProperty;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -20,6 +21,13 @@ import java.util.concurrent.CompletionStage;
 /**
  * REST API for kiosk operations.
  */
+// Gated: KioskService has no implementation yet (application layer is
+// scaffold only - interface plus DTOs, no handlers). Enabling this bean
+// without a provider fails CDI validation at build time. Remove this gate
+// once a KioskService implementation is registered as a CDI bean.
+@IfBuildProperty(
+        name = "syirkah.kiosk.api.enabled",
+        stringValue = "false")
 @Path("/api/v1/kiosks")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

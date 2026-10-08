@@ -5,7 +5,7 @@ import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.identifier.JournalEntryId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.model.JournalEntry;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;
 import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 
@@ -38,7 +38,7 @@ public class FxRevaluationEngine {
     ) {}
 
     public RevaluationResult revalueAccount(
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             AccountId monetaryAccountId,
             AccountId fxGainAccountId,

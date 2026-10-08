@@ -44,7 +44,7 @@ public final class ValidateConfigurationHandler
                     for (var spec : specs) {
                         var result = ConfigurationValidator.validate(
                                 spec, query.configuration());
-                        if (result.valid()) {
+                        if (result.isValid()) {
                             return Result.success(result);
                         }
                     }

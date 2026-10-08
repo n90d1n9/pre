@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class EmailTemplateId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record EmailTemplateId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public EmailTemplateId(UUID value) {
-        super(value);
+    public EmailTemplateId {
+        Objects.requireNonNull(value, "EmailTemplateId value cannot be null");
     }
 
     public static EmailTemplateId of(UUID value) {

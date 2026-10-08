@@ -6,7 +6,7 @@ import tech.kayys.syirkah.accounting.domain.event.JournalEntryPosted;
 import tech.kayys.syirkah.accounting.domain.event.JournalEntryReversed;
 import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TrialBalanceProjection implements Projection<AccountingEvent> {
 
-    public record AccountPeriodKey(TenantId tenantId, LedgerId ledgerId, AccountId accountId) {}
+    public record AccountPeriodKey(TenantRef tenantId, LedgerId ledgerId, AccountId accountId) {}
     public record ProjectedBalance(Money totalDebit, Money totalCredit) {}
 
     private final Map<AccountPeriodKey, ProjectedBalance> balances = new ConcurrentHashMap<>();
@@ -34,7 +34,7 @@ public class TrialBalanceProjection implements Projection<AccountingEvent> {
         return Uni.createFrom().voidItem();
     }
 
-    public void updateBalance(TenantId tenantId, LedgerId ledgerId, AccountId accountId, Money debit, Money credit) {
+    public void updateBalance(TenantRef tenantId, LedgerId ledgerId, AccountId accountId, Money debit, Money credit) {
         AccountPeriodKey key = new AccountPeriodKey(tenantId, ledgerId, accountId);
         balances.compute(key, (k, existing) -> {
             if (existing == null) {
@@ -44,7 +44,7 @@ public class TrialBalanceProjection implements Projection<AccountingEvent> {
         });
     }
 
-    public ProjectedBalance getBalance(TenantId tenantId, LedgerId ledgerId, AccountId accountId) {
+    public ProjectedBalance getBalance(TenantRef tenantId, LedgerId ledgerId, AccountId accountId) {
         return balances.get(new AccountPeriodKey(tenantId, ledgerId, accountId));
     }
 }

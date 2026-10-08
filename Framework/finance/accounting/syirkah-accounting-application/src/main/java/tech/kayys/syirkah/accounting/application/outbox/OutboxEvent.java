@@ -1,7 +1,7 @@
 package tech.kayys.syirkah.accounting.application.outbox;
 
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -15,7 +15,7 @@ public record OutboxEvent(
         String aggregateType,
         String aggregateId,
         String eventType,
-        TenantId tenantId,
+        TenantRef tenantId,
         LedgerId ledgerId,
         String payload,
         Instant createdAt,
@@ -29,7 +29,7 @@ public record OutboxEvent(
         Objects.requireNonNull(createdAt, "createdAt cannot be null");
     }
 
-    public static OutboxEvent of(String aggregateType, String aggregateId, String eventType, TenantId tenantId, LedgerId ledgerId, String payload) {
+    public static OutboxEvent of(String aggregateType, String aggregateId, String eventType, TenantRef tenantId, LedgerId ledgerId, String payload) {
         return new OutboxEvent(UUID.randomUUID(), aggregateType, aggregateId, eventType, tenantId, ledgerId, payload, Instant.now(), null);
     }
 

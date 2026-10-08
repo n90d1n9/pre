@@ -27,6 +27,14 @@ public record TenantId(UUID value) implements DomainId<UUID>, Serializable {
         return new TenantId(UUID.randomUUID());
     }
 
+    /**
+     * Alias of {@link #generate()}, retained so callers migrating from the
+     * former {@code tenancy} copy of {@code TenantId} keep compiling.
+     */
+    public static TenantId newId() {
+        return generate();
+    }
+
     @Override
     public String toString() {
         return value.toString();

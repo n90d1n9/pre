@@ -16,4 +16,9 @@ public interface ProductSpecificationRepository
     CompletionStage<List<ProductSpecification>> findByProductId(
             ProductId productId
     );
+
+    /** True when the product already owns a specification (product02.md). */
+    default CompletionStage<Boolean> existsByProductId(ProductId productId) {
+        return findByProductId(productId).thenApply(list -> !list.isEmpty());
+    }
 }

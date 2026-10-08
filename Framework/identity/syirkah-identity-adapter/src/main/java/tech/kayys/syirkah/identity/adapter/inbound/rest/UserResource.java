@@ -17,6 +17,7 @@ import tech.kayys.syirkah.identity.application.command.DeactivateUserCommand;
 import tech.kayys.syirkah.identity.application.command.DeactivateUserCommandHandler;
 import tech.kayys.syirkah.identity.application.command.RegisterUserCommand;
 import tech.kayys.syirkah.identity.application.command.RegisterUserCommandHandler;
+import tech.kayys.syirkah.identity.application.port.CurrentPrincipalPort;
 import tech.kayys.syirkah.identity.application.query.GetUserByIdQuery;
 import tech.kayys.syirkah.identity.application.query.GetUserByIdQueryHandler;
 import tech.kayys.syirkah.identity.application.query.ListUsersQuery;
@@ -25,6 +26,7 @@ import tech.kayys.syirkah.identity.application.query.UserView;
 
 import java.net.URI;
 import java.util.UUID;
+import tech.kayys.syirkah.identity.application.security.PrincipalType;
 
 /**
  * Thin inbound HTTP adapter. It does exactly two things: translate
@@ -52,6 +54,9 @@ public class UserResource {
     @Inject
     ListUsersQueryHandler listUsersQueryHandler;
 
+    @Inject
+    CurrentPrincipalPort currentPrincipal;
+
     @POST
     public Uni<Response> register(RegisterUserRequest request) {
         var command = new RegisterUserCommand(
@@ -70,7 +75,8 @@ public class UserResource {
     @GET
     @Path("/{userId}")
     public Uni<UserResponse> getById(@PathParam("userId") UUID userId) {
-        return getUserByIdQueryHandler.handle(new GetUserByIdQuery(userId))
+        return requireSelf(userId)
+                .chain(() -> getUserByIdQueryHandler.handle(new GetUserByIdQuery(userId)))
                 .map(UserResponse::from);
     }
 
@@ -79,14 +85,9 @@ public class UserResource {
             @QueryParam("page") @DefaultValue("0") int page,
             @QueryParam("size") @DefaultValue("20") int size
     ) {
-        return listUsersQueryHandler
-                .handle(new ListUsersQuery(PageRequest.of(page, size)))
-                .map(result -> new Page<>(
-                        result.content().stream().map(UserResponse::from).toList(),
-                        result.totalElements(),
-                        result.page(),
-                        result.size()
-                ));
+        return Uni.createFrom().failure(
+                new jakarta.ws.rs.ForbiddenException("User enumeration requires a tenant-scoped query")
+        );
     }
 
     @PATCH
@@ -97,7 +98,8 @@ public class UserResource {
     ) {
         var command = new ChangeUserEmailCommand(userId, request.newEmail());
 
-        return changeUserEmailCommandHandler.handle(command)
+        return requireSelf(userId)
+                .chain(() -> changeUserEmailCommandHandler.handle(command))
                 .replaceWith(Response.noContent().build());
     }
 
@@ -109,8 +111,22 @@ public class UserResource {
     ) {
         var command = new DeactivateUserCommand(userId, request.reason());
 
-        return deactivateUserCommandHandler.handle(command)
+        return requireSelf(userId)
+                .chain(() -> deactivateUserCommandHandler.handle(command))
                 .replaceWith(Response.noContent().build());
+    }
+
+    private Uni<Void> requireSelf(UUID requestedUserId) {
+        return currentPrincipal.current().flatMap(principal -> {
+            if (principal.type() != PrincipalType.USER
+                    || principal.userId() == null
+                    || !principal.userId().value().equals(requestedUserId)) {
+                return Uni.createFrom().failure(
+                        new jakarta.ws.rs.ForbiddenException("A user may only access their own profile")
+                );
+            }
+            return Uni.createFrom().voidItem();
+        });
     }
 
 }

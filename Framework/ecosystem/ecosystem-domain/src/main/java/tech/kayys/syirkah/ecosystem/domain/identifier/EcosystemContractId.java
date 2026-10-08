@@ -1,19 +1,19 @@
 package tech.kayys.syirkah.ecosystem.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Identifies an ecosystem contract - the agreed commercial and
  * operational terms under which a provider supplies a capability.
  */
-public final class EcosystemContractId extends Identifier<UUID> {
+public record EcosystemContractId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public EcosystemContractId(UUID value) {
-        super(value);
+    public EcosystemContractId {
+        Objects.requireNonNull(value, "EcosystemContractId value cannot be null");
     }
 
     public static EcosystemContractId of(UUID value) {

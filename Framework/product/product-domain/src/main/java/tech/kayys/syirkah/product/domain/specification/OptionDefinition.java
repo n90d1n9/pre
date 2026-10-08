@@ -16,6 +16,11 @@ public record OptionDefinition(
         name = requireText(name, "Option name");
     }
 
+    /** Identity key for configuration selections (product02.md). */
+    public OptionId id() {
+        return OptionId.of(code);
+    }
+
     private static String requireText(String value, String field) {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException(

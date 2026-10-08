@@ -1,13 +1,13 @@
 
 package tech.kayys.syirkah.accounting.domain.consolidation;
 
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public record GroupMember(
-        TenantId entityTenantId,
+        TenantRef entityTenantId,
         String entityName,
         BigDecimal ownershipPercentage, // e.g. 80.00%
         boolean isParent

@@ -10,7 +10,7 @@ import tech.kayys.syirkah.accounting.domain.event.AccountCreated;
 import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.model.Account;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;
 
 import java.util.Objects;
@@ -28,7 +28,7 @@ public class CreateAccountHandler implements CommandHandler<CreateAccountCommand
     @Override
     public Uni<AccountId> handle(CreateAccountCommand command) {
         AccountId id = AccountId.generate();
-        TenantId tenantId = command.tenantId() != null ? command.tenantId() : TenantId.defaultTenant();
+        TenantRef tenantId = command.tenantId() != null ? command.tenantId() : TenantRef.defaultTenant();
         LedgerId ledgerId = command.ledgerId() != null ? command.ledgerId() : LedgerId.primary();
         Currency cur = Currency.of(command.currencyCode() != null ? command.currencyCode() : "USD");
 

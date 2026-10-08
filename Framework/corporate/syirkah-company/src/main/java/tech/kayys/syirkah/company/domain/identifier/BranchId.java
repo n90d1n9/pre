@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.company.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Branch identifier.
  */
-public final class BranchId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record BranchId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public BranchId(UUID value) {
-        super(value);
+    public BranchId {
+        Objects.requireNonNull(value, "BranchId value cannot be null");
     }
 
     public static BranchId of(UUID value) {

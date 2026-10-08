@@ -1,37 +1,28 @@
 package tech.kayys.syirkah.asset.domain.valueobject;
 
 /**
- * Types of assets.
+ * Coarse classification of an Asset. Intentionally flat: no
+ * VehicleAsset extends Asset style inheritance (see ASSET-01).
  */
 public enum AssetType {
-    BUILDING("Building"),
-    LAND("Land"),
-    VEHICLE("Vehicle"),
-    MACHINERY("Machinery"),
-    EQUIPMENT("Equipment"),
-    FURNITURE("Furniture"),
-    COMPUTER("Computer"),
-    SOFTWARE("Software"),
-    INTANGIBLE("Intangible Asset"),
-    LEASEHOLD("Leasehold Improvement"),
-    INFRASTRUCTURE("Infrastructure"),
-    OTHER("Other");
 
-    private final String displayName;
+    VEHICLE,
 
-    AssetType(String displayName) {
-        this.displayName = displayName;
-    }
+    MACHINE,
 
-    public String getDisplayName() {
-        return displayName;
-    }
+    EQUIPMENT,
 
-    public boolean isTangible() {
-        return this != INTANGIBLE && this != SOFTWARE;
-    }
+    BUILDING,
 
-    public boolean isRealEstate() {
-        return this == BUILDING || this == LAND;
-    }
+    PROPERTY,
+
+    IT_EQUIPMENT,
+
+    TOOL,
+
+    FURNITURE,
+
+    DEVICE,
+
+    OTHER
 }

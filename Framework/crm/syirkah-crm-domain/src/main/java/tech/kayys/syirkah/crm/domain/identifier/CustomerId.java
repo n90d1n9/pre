@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Customer identifier in the CRM context.
  */
-public final class CustomerId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record CustomerId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public CustomerId(UUID value) {
-        super(value);
+    public CustomerId {
+        Objects.requireNonNull(value, "CustomerId value cannot be null");
     }
 
     public static CustomerId of(UUID value) {

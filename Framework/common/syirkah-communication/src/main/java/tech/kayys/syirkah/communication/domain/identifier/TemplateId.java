@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.communication.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Communication template identifier.
  */
-public final class TemplateId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record TemplateId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public TemplateId(UUID value) {
-        super(value);
+    public TemplateId {
+        Objects.requireNonNull(value, "TemplateId value cannot be null");
     }
 
     public static TemplateId of(UUID value) {

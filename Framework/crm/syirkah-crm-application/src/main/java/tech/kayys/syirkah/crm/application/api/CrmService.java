@@ -3,6 +3,9 @@ package tech.kayys.syirkah.crm.application.api;
 import tech.kayys.syirkah.crm.application.api.command.*;
 import tech.kayys.syirkah.crm.application.api.query.*;
 import tech.kayys.syirkah.crm.domain.identifier.*;
+import tech.kayys.syirkah.crm.domain.referral.ReferralId;
+import tech.kayys.syirkah.crm.domain.territory.TerritoryId;
+import tech.kayys.syirkah.crm.domain.territory.TerritoryAssignmentId;
 
 import java.time.Instant;
 import java.util.List;
@@ -32,12 +35,23 @@ public interface CrmService {
     CompletionStage<PipelineView> getPipeline(String assignedTo, UUID customerId);
     CompletionStage<List<OpportunityView>> searchOpportunities(SearchOpportunitiesQuery query);
 
-    // Tickets
-    CompletionStage<TicketId> createTicket(CreateTicketCommand command);
-    CompletionStage<Object> getTicket(GetTicketQuery query);
-    CompletionStage<Void> assignTicket(AssignTicketCommand command);
-    CompletionStage<Void> resolveTicket(ResolveTicketCommand command);
-    CompletionStage<Void> closeTicket(CloseTicketCommand command);
+    // Referral
+    CompletionStage<ReferralId> createReferral(CreateReferralCommand command);
+    CompletionStage<Void> acceptReferral(AcceptReferralCommand command);
+    CompletionStage<Void> rejectReferral(RejectReferralCommand command);
+    CompletionStage<Void> convertReferral(ConvertReferralCommand command);
+    CompletionStage<Void> cancelReferral(CancelReferralCommand command);
+
+    // Territory
+    CompletionStage<TerritoryId> createTerritory(CreateTerritoryCommand command);
+    CompletionStage<Void> updateTerritory(UpdateTerritoryCommand command);
+    CompletionStage<Void> activateTerritory(ActivateTerritoryCommand command);
+    CompletionStage<Void> retireTerritory(RetireTerritoryCommand command);
+    CompletionStage<Void> setTerritoryParent(SetTerritoryParentCommand command);
+
+    // Territory Assignment
+    CompletionStage<TerritoryAssignmentId> createTerritoryAssignment(CreateTerritoryAssignmentCommand command);
+    CompletionStage<Void> endTerritoryAssignment(EndTerritoryAssignmentCommand command);
 
     // Reports / Dashboard
     CompletionStage<CrmDashboardView> getDashboardMetrics(String period);
@@ -53,12 +67,4 @@ public interface CrmService {
     CompletionStage<CampaignId> createEmailCampaign(CreateEmailCampaignCommand command);
     CompletionStage<Void> startEmailCampaign(StartEmailCampaignCommand command);
 
-    // Customer Portal
-    CompletionStage<CustomerPortalUserId> registerPortalUser(RegisterPortalUserCommand command);
-    CompletionStage<TicketId> createPortalTicket(CreatePortalTicketCommand command);
-    CompletionStage<Object> getPortalTicket(UUID ticketId);
-    CompletionStage<List<Object>> getPortalTickets(UUID customerId, int page, int size);
-    CompletionStage<List<Object>> searchKnowledgeArticles(String query, String category, int page, int size);
-    CompletionStage<Object> getKnowledgeArticle(UUID id);
-    CompletionStage<Void> markArticleHelpful(UUID id);
 }

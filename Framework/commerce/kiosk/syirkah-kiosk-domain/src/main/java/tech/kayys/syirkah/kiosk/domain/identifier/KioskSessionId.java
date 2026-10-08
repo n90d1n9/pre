@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.kiosk.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Kiosk session identifier for customer sessions.
  */
-public final class KioskSessionId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record KioskSessionId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public KioskSessionId(UUID value) {
-        super(value);
+    public KioskSessionId {
+        Objects.requireNonNull(value, "KioskSessionId value cannot be null");
     }
 
     public static KioskSessionId of(UUID value) {

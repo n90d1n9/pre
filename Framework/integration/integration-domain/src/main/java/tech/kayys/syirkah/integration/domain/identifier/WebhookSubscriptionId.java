@@ -1,16 +1,16 @@
 package tech.kayys.syirkah.integration.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /** Identifies a webhook subscription belonging to an external system. */
-public final class WebhookSubscriptionId extends Identifier<UUID> {
+public record WebhookSubscriptionId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public WebhookSubscriptionId(UUID value) {
-        super(value);
+    public WebhookSubscriptionId {
+        Objects.requireNonNull(value, "WebhookSubscriptionId value cannot be null");
     }
 
     public static WebhookSubscriptionId of(UUID value) {

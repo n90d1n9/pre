@@ -24,6 +24,8 @@
 
     <modules>
         <module>syirkah-document</module>
+        <module>syirkah-document-application</module>
+        <module>syirkah-document-adapter</module>
     </modules>
 
 </project>

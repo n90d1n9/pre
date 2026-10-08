@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class AutomationRuleId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record AutomationRuleId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public AutomationRuleId(UUID value) {
-        super(value);
+    public AutomationRuleId {
+        Objects.requireNonNull(value, "AutomationRuleId value cannot be null");
     }
 
     public static AutomationRuleId of(UUID value) {

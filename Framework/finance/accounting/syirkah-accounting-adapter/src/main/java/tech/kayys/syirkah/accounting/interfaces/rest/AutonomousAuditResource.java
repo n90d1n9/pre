@@ -23,7 +23,8 @@ public class AutonomousAuditResource {
     @Inject
     DeclarativeRuleEngine ruleEngine;
 
-    public record AuditAnalysisRequest(
+    
+public record AuditAnalysisRequest(
             String entryId,
             BigDecimal amount,
             int lineCount,

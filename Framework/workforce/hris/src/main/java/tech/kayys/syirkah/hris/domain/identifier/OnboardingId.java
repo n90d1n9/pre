@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.hris.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Onboarding process identifier.
  */
-public final class OnboardingId extends Identifier<UUID> {
+public record OnboardingId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public OnboardingId(UUID value) {
-        super(value);
+    public OnboardingId {
+        Objects.requireNonNull(value, "OnboardingId value cannot be null");
     }
 
     public static OnboardingId of(UUID value) {

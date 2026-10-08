@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.kayys.syirkah</groupId>
+        <artifactId>syirkah-commerce</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syirkah-subscription-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Syirkah Commerce - Subscription Aggregator</name>
+    <description>
+        Commerce Subscription Capability (product01.md Phase G):
+        Subscription / Usage / Entitlement. Product -&gt; Offering -&gt;
+        Subscription -&gt; Billing -&gt; Entitlement chain per blueprint
+        section 9-10. Customer is an opaque reference; the offering is
+        referenced by id only. Usage metering enforces entitlement
+        quotas within the current subscription period.
+    </description>
+
+    <modules>
+        <module>syirkah-subscription-domain</module>
+        <module>syirkah-subscription-spi</module>
+        <module>syirkah-subscription-application</module>
+        <module>syirkah-subscription-adapter</module>
+    </modules>
+
+</project>

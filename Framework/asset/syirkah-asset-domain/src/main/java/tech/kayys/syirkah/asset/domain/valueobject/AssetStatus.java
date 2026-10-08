@@ -1,39 +1,27 @@
 package tech.kayys.syirkah.asset.domain.valueobject;
 
 /**
- * Status of an asset.
+ * Lifecycle status of an Asset. This is deliberately the ONLY lifecycle
+ * dimension; availability, custody, maintenance and utilization are
+ * modelled as separate state dimensions (see ASSET-12/15).
  */
 public enum AssetStatus {
-    ACTIVE("Active - in use"),
-    INACTIVE("Inactive - not in use"),
-    MAINTENANCE("Maintenance - being repaired"),
-    DEPRECIATED("Depreciated - fully depreciated"),
-    DISPOSED("Disposed - removed"),
-    LOST("Lost - missing"),
-    STOLEN("Stolen"),
-    DAMAGED("Damaged"),
-    UNDER_REPAIR("Under Repair"),
-    RESERVED("Reserved - allocated");
 
-    private final String description;
+    DRAFT,
 
-    AssetStatus(String description) {
-        this.description = description;
-    }
+    ACTIVE,
 
-    public String getDescription() {
-        return description;
+    SUSPENDED,
+
+    RETIRED,
+
+    DISPOSED;
+
+    public boolean isTerminal() {
+        return this == DISPOSED;
     }
 
     public boolean isOperational() {
         return this == ACTIVE;
-    }
-
-    public boolean isActive() {
-        return this == ACTIVE || this == RESERVED;
-    }
-
-    public boolean isTerminal() {
-        return this == DISPOSED || this == LOST || this == STOLEN;
     }
 }

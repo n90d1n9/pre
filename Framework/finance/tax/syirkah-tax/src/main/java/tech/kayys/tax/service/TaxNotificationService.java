@@ -60,7 +60,8 @@ public class TaxNotificationService {
         }
     }
     
-    @Scheduled(cron = "0 0 9 * * MON") // Every Monday at 9 AM
+    // Quartz cron: when a day-of-week is given, day-of-month must be "?".
+    @Scheduled(cron = "0 0 9 ? * MON") // Every Monday at 9 AM
     public void sendWeeklyTaxReminders() {
         LOG.info("Sending weekly tax reminders");
         

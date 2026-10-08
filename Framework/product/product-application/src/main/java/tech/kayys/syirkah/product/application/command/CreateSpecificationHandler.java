@@ -14,7 +14,7 @@ import tech.kayys.syirkah.product.spi.port.ProductSpecificationRepository;
 import java.util.Objects;
 import java.util.Optional;
 
-/** Creates a specification for an existing product. */
+/** Creates a specification for an existing product (one spec per product). */
 public final class CreateSpecificationHandler
         implements CommandHandler<
         CreateSpecificationCommand, Result<ProductSpecificationId>> {
@@ -23,6 +23,12 @@ public final class CreateSpecificationHandler
             ApplicationError.of(
                     "PRODUCT_NOT_FOUND",
                     "Product does not exist"
+            );
+
+    private static final ApplicationError ALREADY_EXISTS =
+            ApplicationError.of(
+                    "PRODUCT_SPECIFICATION_ALREADY_EXISTS",
+                    "Product already has a specification"
             );
 
     private final ProductRepository products;
@@ -58,9 +64,25 @@ public final class CreateSpecificationHandler
             return Uni.createFrom().item(Result.failure(NOT_FOUND));
         }
 
+        return Uni.createFrom()
+                .completionStage(
+                        specifications.existsByProductId(command.productId()))
+                .onItem()
+                .transformToUni(exists -> {
+                    if (exists) {
+                        return Uni.createFrom().item(
+                                Result.failure(ALREADY_EXISTS));
+                    }
+                    return persist(command);
+                });
+    }
+
+    private Uni<Result<ProductSpecificationId>> persist(
+            CreateSpecificationCommand command
+    ) {
         var specification = ProductSpecification.create(
                 ProductSpecificationId.generate(),
-                maybeProduct.get().id(),
+                command.productId(),
                 command.code(),
                 command.name()
         );

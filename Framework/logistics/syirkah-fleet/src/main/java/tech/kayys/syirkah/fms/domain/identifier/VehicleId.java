@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.fms.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class VehicleId extends Identifier<UUID> {
+public record VehicleId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public VehicleId(UUID value) {
-        super(value);
+    public VehicleId {
+        Objects.requireNonNull(value, "VehicleId value cannot be null");
     }
 
     public static VehicleId of(UUID value) {

@@ -1,7 +1,7 @@
 
 package tech.kayys.syirkah.accounting.domain.consolidation;
 
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -126,6 +126,49 @@ public final class ProductSpecification
         }
     }
 
+    public void addOption(String groupCode, OptionDefinition option) {
+        Objects.requireNonNull(option, "Option cannot be null");
+        String normalizedGroup = requireText(groupCode, "Option group code");
+
+        for (int i = 0; i < optionGroups.size(); i++) {
+            OptionGroup group = optionGroups.get(i);
+            if (group.code().equals(normalizedGroup)) {
+                try {
+                    optionGroups.set(i, group.withOption(option));
+                } catch (IllegalArgumentException ex) {
+                    throw new BusinessRuleViolation(ex.getMessage());
+                }
+                raiseChanged();
+                return;
+            }
+        }
+
+        throw new BusinessRuleViolation(
+                "Option group not found: " + normalizedGroup
+        );
+    }
+
+    public void removeOption(String groupCode, String optionCode) {
+        String normalizedGroup = requireText(groupCode, "Option group code");
+
+        for (int i = 0; i < optionGroups.size(); i++) {
+            OptionGroup group = optionGroups.get(i);
+            if (group.code().equals(normalizedGroup)) {
+                try {
+                    optionGroups.set(i, group.withoutOption(optionCode));
+                } catch (IllegalArgumentException ex) {
+                    throw new BusinessRuleViolation(ex.getMessage());
+                }
+                raiseChanged();
+                return;
+            }
+        }
+
+        throw new BusinessRuleViolation(
+                "Option group not found: " + normalizedGroup
+        );
+    }
+
     private void raiseChanged() {
         raise(
                 new ProductSpecificationChanged(

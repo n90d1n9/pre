@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.security.domain.audit.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Identifier for audit trail entries.
  */
-public final class AuditTrailId extends Identifier<UUID> {
+public record AuditTrailId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public AuditTrailId(UUID value) {
-        super(value);
+    public AuditTrailId {
+        Objects.requireNonNull(value, "AuditTrailId value cannot be null");
     }
 
     public static AuditTrailId of(UUID value) {

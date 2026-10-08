@@ -2,7 +2,7 @@
 package tech.kayys.syirkah.accounting.application.workflow.gamelan;
 
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.util.Map;
 import java.util.Objects;
@@ -10,7 +10,7 @@ import java.util.Objects;
 public record WorkflowStartRequest(
         String processDefinitionKey,
         String businessKey,
-        TenantId tenantId,
+        TenantRef tenantId,
         LedgerId ledgerId,
         Map<String, Object> variables
 ) {

@@ -16,5 +16,34 @@
             <artifactId>syirkah-foundation</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>tech.kayys.syirkah</groupId>
+            <artifactId>syirkah-product-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--
+            Architecture guard: Catalog is a separate bounded context and must
+            not reuse the bare canonical Product names. ArchUnit is brought in
+            via the framework BOM (dependencyManagement) so it is versioned
+            centrally. JUnit Jupiter is declared explicitly because the BOM
+            only imports junit-bom (a BOM), not the aggregator artifact.
+        -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>tech.kayys.syirkah</groupId>
+            <artifactId>syirkah-foundation-testing</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

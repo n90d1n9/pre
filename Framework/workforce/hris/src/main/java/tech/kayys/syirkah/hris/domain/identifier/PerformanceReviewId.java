@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.hris.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Performance review identifier.
  */
-public final class PerformanceReviewId extends Identifier<UUID> {
+public record PerformanceReviewId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public PerformanceReviewId(UUID value) {
-        super(value);
+    public PerformanceReviewId {
+        Objects.requireNonNull(value, "PerformanceReviewId value cannot be null");
     }
 
     public static PerformanceReviewId of(UUID value) {

@@ -1,13 +1,15 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class EmailMessageId extends Identifier<UUID> {
+public record EmailMessageId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public EmailMessageId(UUID value) {
-        super(value);
+    public EmailMessageId {
+        Objects.requireNonNull(value, "EmailMessageId value cannot be null");
     }
 
     public static EmailMessageId generate() {
@@ -20,5 +22,10 @@ public final class EmailMessageId extends Identifier<UUID> {
 
     public static EmailMessageId of(String value) {
         return new EmailMessageId(UUID.fromString(value));
+    }
+
+    @Override
+    public String toString() {
+        return value != null ? value.toString() : "";
     }
 }

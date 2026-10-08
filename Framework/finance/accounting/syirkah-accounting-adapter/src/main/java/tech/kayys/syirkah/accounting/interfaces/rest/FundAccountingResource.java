@@ -23,7 +23,8 @@ public class FundAccountingResource {
     @Inject
     FundAccountingService fundService;
 
-    public record CreateFundRequest(String fundId, String code, String name, FundType type, BigDecimal initialBalance) {}
+    
+public record CreateFundRequest(String fundId, String code, String name, FundType type, BigDecimal initialBalance) {}
     public record RegisterGrantRequest(String grantId, String code, String donorName, String linkedFundId, BigDecimal awardedAmount, LocalDate expiryDate) {}
     public record RecordExpenditureRequest(BigDecimal amount) {}
     public record TransferFundsRequest(String sourceFundId, String targetFundId, BigDecimal amount) {}

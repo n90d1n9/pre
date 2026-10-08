@@ -24,7 +24,8 @@ public class IslamicFinanceResource {
     @Inject
     IslamicFinanceService islamicService;
 
-    public record AssessZakatRequest(BigDecimal currentAssets, BigDecimal currentLiabilities, BigDecimal goldPricePerGram, boolean isSolarYear) {}
+    
+public record AssessZakatRequest(BigDecimal currentAssets, BigDecimal currentLiabilities, BigDecimal goldPricePerGram, boolean isSolarYear) {}
     public record RegisterSukukRequest(String certificateId, String name, IslamicContractType contractType, String underlyingAssetReference, BigDecimal faceValue, BigDecimal profitSharingRatio, LocalDate maturityDate) {}
 
     @POST

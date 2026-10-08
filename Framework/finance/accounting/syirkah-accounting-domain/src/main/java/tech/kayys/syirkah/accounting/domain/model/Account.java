@@ -4,7 +4,7 @@ import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerAware;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.multitenancy.TenantAware;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.accounting.domain.valueobject.AccountStatus;
 import tech.kayys.syirkah.accounting.domain.valueobject.AccountType;
 import tech.kayys.syirkah.foundation.domain.entity.AbstractAggregateRoot;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public final class Account extends AbstractAggregateRoot<AccountId> implements TenantAware, LedgerAware {
     private final AccountId id;
-    private final TenantId tenantId;
+    private final TenantRef tenantId;
     private final LedgerId ledgerId;
     private String accountNumber;
     private String name;
@@ -29,7 +29,7 @@ public final class Account extends AbstractAggregateRoot<AccountId> implements T
 
     public Account(
             AccountId id,
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             String accountNumber,
             String name,
@@ -37,7 +37,7 @@ public final class Account extends AbstractAggregateRoot<AccountId> implements T
             Currency currency
     ) {
         this.id = Objects.requireNonNull(id, "id cannot be null");
-        this.tenantId = Objects.requireNonNull(tenantId != null ? tenantId : TenantId.defaultTenant(), "tenantId cannot be null");
+        this.tenantId = Objects.requireNonNull(tenantId != null ? tenantId : TenantRef.defaultTenant(), "tenantId cannot be null");
         this.ledgerId = Objects.requireNonNull(ledgerId != null ? ledgerId : LedgerId.primary(), "ledgerId cannot be null");
         this.accountNumber = Objects.requireNonNull(accountNumber, "accountNumber cannot be null");
         this.name = Objects.requireNonNull(name, "name cannot be null");
@@ -49,7 +49,7 @@ public final class Account extends AbstractAggregateRoot<AccountId> implements T
     }
 
     public Account(AccountId id, String accountNumber, String name, AccountType accountType, Currency currency) {
-        this(id, TenantId.defaultTenant(), LedgerId.primary(), accountNumber, name, accountType, currency);
+        this(id, TenantRef.defaultTenant(), LedgerId.primary(), accountNumber, name, accountType, currency);
     }
 
     @Override
@@ -57,7 +57,7 @@ public final class Account extends AbstractAggregateRoot<AccountId> implements T
     public AccountId getId() { return id; }
 
     @Override
-    public TenantId tenantId() { return tenantId; }
+    public TenantRef tenantId() { return tenantId; }
 
     @Override
     public LedgerId ledgerId() { return ledgerId; }

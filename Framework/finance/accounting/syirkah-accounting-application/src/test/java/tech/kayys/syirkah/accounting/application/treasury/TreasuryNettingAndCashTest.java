@@ -1,12 +1,15 @@
 
-package tech.kayys.syirkah.accounting.domain.treasury;
+package tech.kayys.syirkah.accounting.application.treasury;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.kayys.syirkah.accounting.application.treasury.NettingEngine;
 import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
+import tech.kayys.syirkah.accounting.domain.treasury.CashPosition;
+import tech.kayys.syirkah.accounting.domain.treasury.PaymentBatch;
+import tech.kayys.syirkah.accounting.domain.treasury.PaymentBatchStatus;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;
 import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 
@@ -54,9 +57,9 @@ class TreasuryNettingAndCashTest {
     @Test
     @DisplayName("Multilateral netting reduces bilateral gross obligations to net positions")
     void testMultilateralNetting() {
-        TenantId entityA = new TenantId("entity-a");
-        TenantId entityB = new TenantId("entity-b");
-        TenantId entityC = new TenantId("entity-c");
+        TenantRef entityA = new TenantRef("entity-a");
+        TenantRef entityB = new TenantRef("entity-b");
+        TenantRef entityC = new TenantRef("entity-c");
 
         // A owes B 100M
         // B owes C 60M

@@ -1,3 +1,11 @@
+/**
+ * @deprecated This is the pre-1.0 duplicate model (com.saas.product.*).
+ *     It is NOT the canonical Product model. The canonical model lives
+ *     in tech.kayys.syirkah.product.domain.* (syirkah-product-domain).
+ *     Do not copy semantics from here; migrate to the Product 1.0 model.
+ *     This module is excluded from the Maven reactor and must be deleted
+ *     once migration is complete.
+ */
 package com.saas.product.core.model;
 
 import java.util.Objects;

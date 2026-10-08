@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.kayys.syirkah.accounting.domain.compliance.*;
 import tech.kayys.syirkah.accounting.domain.identifier.*;
+import tech.kayys.syirkah.accounting.domain.islamic.ShariaContractType;
 import tech.kayys.syirkah.accounting.domain.model.*;
 import tech.kayys.syirkah.accounting.domain.valueobject.*;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;

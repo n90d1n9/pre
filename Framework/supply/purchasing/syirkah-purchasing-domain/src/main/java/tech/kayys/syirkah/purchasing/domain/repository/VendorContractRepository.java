@@ -6,7 +6,7 @@ import tech.kayys.syirkah.purchasing.domain.identifier.VendorId;
 import tech.kayys.syirkah.purchasing.domain.model.VendorContract;
 import tech.kayys.syirkah.purchasing.domain.valueobject.ContractStatus;
 import tech.kayys.syirkah.purchasing.domain.valueobject.ContractType;
-import tech.kayys.syirkah.purchasing.domain.valueobject.Money;
+import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 
 import java.time.Instant;
 import java.util.List;

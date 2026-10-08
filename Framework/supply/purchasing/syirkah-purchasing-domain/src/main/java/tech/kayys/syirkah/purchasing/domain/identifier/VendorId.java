@@ -1,19 +1,18 @@
 package tech.kayys.syirkah.purchasing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Identifier for vendors.
  */
-public final class VendorId extends Identifier<String> {
+public record VendorId(String value) implements DomainId<String>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private VendorId(String value) {
-        super(value);
+    public VendorId {
+        Objects.requireNonNull(value, "VendorId value cannot be null");
     }
 
     public static VendorId of(UUID uuid) {

@@ -4,7 +4,7 @@ package tech.kayys.syirkah.accounting.application.rule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FinancialRuleEngineTest {
 
     record PaymentRuleContext(
-            TenantId tenantId,
+            TenantRef tenantId,
             LedgerId ledgerId,
             BigDecimal amount
     ) implements RuleContext {}
@@ -44,9 +44,9 @@ class FinancialRuleEngineTest {
         });
 
         PaymentRuleContext normalPayment = new PaymentRuleContext(
-                new TenantId("t1"), new LedgerId("PRIMARY"), new BigDecimal("50000000"));
+                new TenantRef("t1"), new LedgerId("PRIMARY"), new BigDecimal("50000000"));
         PaymentRuleContext highPayment = new PaymentRuleContext(
-                new TenantId("t1"), new LedgerId("PRIMARY"), new BigDecimal("150000000"));
+                new TenantRef("t1"), new LedgerId("PRIMARY"), new BigDecimal("150000000"));
 
         assertFalse(engine.isBlocked(normalPayment));
         assertTrue(engine.isBlocked(highPayment));

@@ -11,7 +11,7 @@ import tech.kayys.syirkah.product.domain.event.ProductDiscontinued;
 import tech.kayys.syirkah.product.domain.event.ProductIdentifierAdded;
 import tech.kayys.syirkah.product.domain.event.ProductIdentifierRemoved;
 import tech.kayys.syirkah.product.domain.event.ProductRenamed;
-import tech.kayys.syirkah.product.domain.identifier.IdentifierType;
+import tech.kayys.syirkah.product.domain.identifier.ProductIdentifierType;
 import tech.kayys.syirkah.product.domain.identifier.ProductIdentifier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -165,7 +165,7 @@ class ProductTest {
                 InvalidStateException.class,
                 () -> product.addIdentifier(
                         new ProductIdentifier(
-                                IdentifierType.EAN,
+                                ProductIdentifierType.EAN,
                                 "8991234567890"
                         )
                 )
@@ -205,6 +205,97 @@ class ProductTest {
         assertEquals(1, product.pullDomainEvents().size());
     }
 
+    // --- Name / description length invariants -------------------------
+    // Absorbed from the retired product-core value objects ProductName and
+    // ProductDescription when that module was consolidated into Product 1.0.
+
+    @Test
+    void rejectsNameLongerThanMaxNameLength() {
+        String tooLong = "a".repeat(Product.MAX_NAME_LENGTH + 1);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Product.create(
+                        ProductId.generate(),
+                        "COFFEE-LATTE",
+                        tooLong,
+                        "Fresh milk coffee",
+                        ProductType.PHYSICAL
+                )
+        );
+    }
+
+    @Test
+    void acceptsNameExactlyAtMaxNameLength() {
+        String atLimit = "a".repeat(Product.MAX_NAME_LENGTH);
+
+        var product = Product.create(
+                ProductId.generate(),
+                "COFFEE-LATTE",
+                atLimit,
+                "Fresh milk coffee",
+                ProductType.PHYSICAL
+        );
+
+        assertEquals(atLimit, product.name());
+    }
+
+    @Test
+    void renameRejectsNameLongerThanMaxNameLength() {
+        var product = newProduct();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> product.rename("a".repeat(Product.MAX_NAME_LENGTH + 1))
+        );
+
+        assertEquals("Latte", product.name());
+    }
+
+    @Test
+    void rejectsDescriptionLongerThanMaxDescriptionLength() {
+        String tooLong = "a".repeat(Product.MAX_DESCRIPTION_LENGTH + 1);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Product.create(
+                        ProductId.generate(),
+                        "COFFEE-LATTE",
+                        "Latte",
+                        tooLong,
+                        ProductType.PHYSICAL
+                )
+        );
+    }
+
+    @Test
+    void acceptsDescriptionExactlyAtMaxDescriptionLength() {
+        String atLimit = "a".repeat(Product.MAX_DESCRIPTION_LENGTH);
+
+        var product = Product.create(
+                ProductId.generate(),
+                "COFFEE-LATTE",
+                "Latte",
+                atLimit,
+                ProductType.PHYSICAL
+        );
+
+        assertEquals(atLimit, product.description());
+    }
+
+    @Test
+    void changeDescriptionRejectsOversizedDescription() {
+        var product = newProduct();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> product.changeDescription(
+                        "a".repeat(Product.MAX_DESCRIPTION_LENGTH + 1))
+        );
+
+        assertEquals("Fresh milk coffee", product.description());
+    }
+
     @Test
     void addsAndRemovesIdentifiers() {
         var product = newProduct();
@@ -212,7 +303,7 @@ class ProductTest {
         product.pullDomainEvents();
 
         var ean = new ProductIdentifier(
-                IdentifierType.EAN,
+                ProductIdentifierType.EAN,
                 "8991234567890"
         );
 
@@ -238,7 +329,7 @@ class ProductTest {
         var product = newProduct();
 
         var ean = new ProductIdentifier(
-                IdentifierType.EAN,
+                ProductIdentifierType.EAN,
                 "8991234567890"
         );
 
@@ -258,7 +349,7 @@ class ProductTest {
                 BusinessRuleViolation.class,
                 () -> product.removeIdentifier(
                         new ProductIdentifier(
-                                IdentifierType.EAN,
+                                ProductIdentifierType.EAN,
                                 "0000000000000"
                         )
                 )

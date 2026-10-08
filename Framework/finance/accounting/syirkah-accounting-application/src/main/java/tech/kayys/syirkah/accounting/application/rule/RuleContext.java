@@ -2,12 +2,12 @@
 package tech.kayys.syirkah.accounting.application.rule;
 
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 
 /**
  * Marker and base context for evaluating financial rules.
  */
 public interface RuleContext {
-    TenantId tenantId();
+    TenantRef tenantId();
     LedgerId ledgerId();
 }

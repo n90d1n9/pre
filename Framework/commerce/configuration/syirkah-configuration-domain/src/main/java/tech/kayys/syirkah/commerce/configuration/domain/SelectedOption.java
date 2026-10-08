@@ -1,29 +1,33 @@
 package tech.kayys.syirkah.commerce.configuration.domain;
 
+import tech.kayys.syirkah.product.domain.specification.OptionGroupId;
+import tech.kayys.syirkah.product.domain.specification.OptionId;
+
 import java.util.Objects;
 
 /**
- * One customer choice inside an option group (e.g. SIZE=LARGE).
- *
- * Mirrors the blueprint's {@code SelectedOption(groupCode, optionCode)}.
- * Carries NO price — the commercial effect of a selection belongs to
- * the pricing capability ({@code PriceAdjustment}).
+ * One customer choice: IDs only, not specification objects (product02.md).
  */
 public record SelectedOption(
-        String groupCode,
-        String optionCode
+        OptionGroupId optionGroupId,
+        OptionId optionId
 ) {
 
     public SelectedOption {
-        groupCode = requireCode(groupCode, "Group code");
-        optionCode = requireCode(optionCode, "Option code");
+        Objects.requireNonNull(optionGroupId, "optionGroupId cannot be null");
+        Objects.requireNonNull(optionId, "optionId cannot be null");
     }
 
-    private static String requireCode(String value, String field) {
-        Objects.requireNonNull(value, field + " cannot be null");
-        if (value.isBlank()) {
-            throw new IllegalArgumentException(field + " cannot be blank");
-        }
-        return value.trim();
+    /** Convenience for code-based call sites / pricing. */
+    public SelectedOption(String groupCode, String optionCode) {
+        this(OptionGroupId.of(groupCode), OptionId.of(optionCode));
+    }
+
+    public String groupCode() {
+        return optionGroupId.value();
+    }
+
+    public String optionCode() {
+        return optionId.value();
     }
 }

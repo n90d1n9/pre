@@ -1,7 +1,7 @@
 
 package tech.kayys.syirkah.accounting.application.treasury;
 
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 
 import java.math.BigDecimal;
@@ -17,18 +17,18 @@ import java.util.Map;
 public class NettingEngine {
 
     public record IntercompanyObligation(
-            TenantId debtor,
-            TenantId creditor,
+            TenantRef debtor,
+            TenantRef creditor,
             Money amount
     ) {}
 
     public record NettingSettlement(
-            TenantId entity,
+            TenantRef entity,
             Money netAmount // positive = net receiver (creditor), negative = net payer (debtor)
     ) {}
 
     public List<NettingSettlement> calculateMultilateralNetting(List<IntercompanyObligation> obligations, String currencyCode) {
-        Map<TenantId, BigDecimal> balances = new HashMap<>();
+        Map<TenantRef, BigDecimal> balances = new HashMap<>();
 
         for (IntercompanyObligation ob : obligations) {
             // Debtor owes money (-), Creditor receives money (+)

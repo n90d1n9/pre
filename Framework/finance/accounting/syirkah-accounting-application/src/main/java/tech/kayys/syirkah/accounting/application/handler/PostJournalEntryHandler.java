@@ -17,7 +17,7 @@ import tech.kayys.syirkah.accounting.domain.identifier.JournalEntryId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.model.Account;
 import tech.kayys.syirkah.accounting.domain.model.JournalEntry;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.event.DomainEvent;
 import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 
@@ -63,7 +63,7 @@ public class PostJournalEntryHandler implements CommandHandler<PostJournalEntryC
 
         JournalEntry entry = new JournalEntry(
                 entryId,
-                TenantId.defaultTenant(),
+                TenantRef.defaultTenant(),
                 LedgerId.primary(),
                 command.referenceNumber() != null ? command.referenceNumber() : "JE-" + UUID.randomUUID().toString().substring(0, 8),
                 Instant.now(),

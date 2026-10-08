@@ -28,19 +28,7 @@
     </properties>
 
     <modules>
-        <!-- Foundation -->
-        <module>foundation/domain</module>
-        <module>foundation/application</module>
-        <module>foundation/reactive-mutiny</module>
-
-        <!-- Architecture Tests -->
-        <module>architecture/tests</module>
-
-        <!-- Business Modules -->
-        <module>modules/catalog/domain</module>
-        <module>modules/catalog/application</module>
-        <module>modules/catalog/infrastructure</module>
-        <module>modules/catalog/interfaces</module>
+        <module>Framework</module>
     </modules>
 
     <dependencyManagement>

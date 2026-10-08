@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.billing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class CreditNoteId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record CreditNoteId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public CreditNoteId(UUID value) {
-        super(value);
+    public CreditNoteId {
+        Objects.requireNonNull(value, "CreditNoteId value cannot be null");
     }
 
     public static CreditNoteId of(UUID value) {

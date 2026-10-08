@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.billing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Billing schedule identifier.
  */
-public final class BillingScheduleId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record BillingScheduleId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public BillingScheduleId(UUID value) {
-        super(value);
+    public BillingScheduleId {
+        Objects.requireNonNull(value, "BillingScheduleId value cannot be null");
     }
 
     public static BillingScheduleId of(UUID value) {

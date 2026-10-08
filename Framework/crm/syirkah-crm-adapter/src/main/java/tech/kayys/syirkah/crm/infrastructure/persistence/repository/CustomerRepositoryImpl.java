@@ -1,8 +1,6 @@
 package tech.kayys.syirkah.crm.infrastructure.persistence.repository;
 
 import io.quarkus.hibernate.reactive.panache.Panache;
-import io.quarkus.hibernate.reactive.panache.common.WithSession;
-import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import tech.kayys.syirkah.crm.domain.identifier.CustomerId;
 import tech.kayys.syirkah.crm.domain.model.Customer;
@@ -30,7 +28,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Customer> save(Customer customer) {
         CustomerEntity entity = mapper.toEntity(customer);
         
@@ -43,113 +40,95 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    @WithSession
     public CompletionStage<Optional<Customer>> findById(CustomerId id) {
-        Uni<CustomerEntity> uni = CustomerEntity.findById(id.getValue());
-        return uni
+    return Panache.withSession(() -> CustomerEntity.findById(id.getValue())
             .map(entity -> entity == null ? Optional.<Customer>empty() : Optional.of(mapper.toDomain(entity)))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Boolean> existsById(CustomerId id) {
-        Uni<CustomerEntity> uni = CustomerEntity.findById(id.getValue());
-        return uni
+    return Panache.withSession(() -> CustomerEntity.findById(id.getValue())
             .map(entity -> entity != null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Void> delete(Customer customer) {
-        return CustomerEntity.deleteById(customer.getId().getValue())
+    return Panache.withTransaction(() -> CustomerEntity.deleteById(customer.getId().getValue())
             .map(v -> (Void) null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithTransaction
     public CompletionStage<Void> deleteById(CustomerId id) {
-        return CustomerEntity.deleteById(id.getValue())
+    return Panache.withTransaction(() -> CustomerEntity.deleteById(id.getValue())
             .map(v -> (Void) null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Customer> findByEmail(String email) {
-        Uni<CustomerEntity> uni = CustomerEntity.find("email = ?1", email).firstResult();
-        return uni
+    return Panache.withSession(() -> CustomerEntity.find("email = ?1", email).firstResult()
             .map(entity -> entity != null ? mapper.toDomain(entity) : null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Customer> findByCustomerNumber(String customerNumber) {
-        Uni<CustomerEntity> uni = CustomerEntity.find("customerNumber = ?1", customerNumber).firstResult();
-        return uni
+    return Panache.withSession(() -> CustomerEntity.find("customerNumber = ?1", customerNumber).firstResult()
             .map(entity -> entity != null ? mapper.toDomain(entity) : null)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Customer>> findByCompanyName(String companyName) {
-        Uni<List<CustomerEntity>> uni = CustomerEntity.list("companyName like ?1", "%" + companyName + "%");
-        return uni
+    return Panache.withSession(() -> CustomerEntity.list("companyName like ?1", "%" + companyName + "%")
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Customer>> findByIndustry(String industry) {
-        Uni<List<CustomerEntity>> uni = CustomerEntity.list("industry = ?1", industry);
-        return uni
+    return Panache.withSession(() -> CustomerEntity.list("industry = ?1", industry)
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<List<Customer>> findActiveCustomers() {
-        Uni<List<CustomerEntity>> uni = CustomerEntity.list("active = true");
-        return uni
+    return Panache.withSession(() -> CustomerEntity.list("active = true")
             .map(entities -> entities.stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList()))
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Boolean> existsByEmail(String email) {
-        return CustomerEntity.count("email = ?1", email)
+    return Panache.withSession(() -> CustomerEntity.count("email = ?1", email)
             .map(count -> count > 0)
-            .subscribe()
+            ).subscribe()
             .asCompletionStage();
     }
 
     @Override
-    @WithSession
     public CompletionStage<Long> countByIndustry(String industry) {
-        return CustomerEntity.count("industry = ?1", industry)
-            .subscribe()
+    return Panache.withSession(() -> CustomerEntity.count("industry = ?1", industry)
+            ).subscribe()
             .asCompletionStage();
     }
 }

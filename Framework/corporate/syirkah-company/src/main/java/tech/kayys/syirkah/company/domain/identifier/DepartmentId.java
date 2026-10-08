@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.company.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Department identifier.
  */
-public final class DepartmentId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record DepartmentId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public DepartmentId(UUID value) {
-        super(value);
+    public DepartmentId {
+        Objects.requireNonNull(value, "DepartmentId value cannot be null");
     }
 
     public static DepartmentId of(UUID value) {

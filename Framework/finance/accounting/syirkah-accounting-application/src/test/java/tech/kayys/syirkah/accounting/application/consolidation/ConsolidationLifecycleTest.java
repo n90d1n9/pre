@@ -1,12 +1,16 @@
 
-package tech.kayys.syirkah.accounting.domain.consolidation;
+package tech.kayys.syirkah.accounting.application.consolidation;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tech.kayys.syirkah.accounting.application.consolidation.EliminationEngine;
+import tech.kayys.syirkah.accounting.domain.consolidation.ConsolidationRun;
+import tech.kayys.syirkah.accounting.domain.consolidation.ConsolidationRunStatus;
+import tech.kayys.syirkah.accounting.domain.consolidation.GroupHierarchy;
+import tech.kayys.syirkah.accounting.domain.consolidation.GroupMember;
 import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.foundation.domain.valueobject.Money;
 
 import java.math.BigDecimal;
@@ -20,10 +24,10 @@ class ConsolidationLifecycleTest {
     @Test
     @DisplayName("Group hierarchy setup and non-controlling interest percentage")
     void testGroupHierarchy() {
-        GroupMember parent = new GroupMember(new TenantId("parent-corp"), "Parent Holding Corp", new BigDecimal("100.00"), true);
+        GroupMember parent = new GroupMember(new TenantRef("parent-corp"), "Parent Holding Corp", new BigDecimal("100.00"), true);
         GroupHierarchy hierarchy = new GroupHierarchy("GRP-01", "Andalus Group", parent);
 
-        GroupMember sub = new GroupMember(new TenantId("sub-tech"), "Tech Subsidiary", new BigDecimal("80.00"), false);
+        GroupMember sub = new GroupMember(new TenantRef("sub-tech"), "Tech Subsidiary", new BigDecimal("80.00"), false);
         hierarchy.addSubsidiary(sub);
 
         assertEquals(1, hierarchy.subsidiaries().size());
@@ -33,7 +37,7 @@ class ConsolidationLifecycleTest {
     @Test
     @DisplayName("ConsolidationRun lifecycle and reciprocal balance elimination")
     void testConsolidationRun() {
-        TenantId parentTenant = new TenantId("parent-corp");
+        TenantRef parentTenant = new TenantRef("parent-corp");
         ConsolidationRun run = new ConsolidationRun(
                 "CONS-2026-Q3", parentTenant, new LedgerId("CONSOLIDATION"),
                 "2026", 3, LocalDate.now()

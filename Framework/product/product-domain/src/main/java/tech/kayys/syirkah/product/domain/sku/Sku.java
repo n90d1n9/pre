@@ -8,6 +8,7 @@ import tech.kayys.syirkah.product.domain.event.SkuArchived;
 import tech.kayys.syirkah.product.domain.event.SkuCreated;
 import tech.kayys.syirkah.product.domain.event.SkuDiscontinued;
 import tech.kayys.syirkah.product.domain.event.SkuIdentifierAdded;
+import tech.kayys.syirkah.product.domain.event.SkuIdentifierRemoved;
 import tech.kayys.syirkah.product.domain.product.ProductId;
 import tech.kayys.syirkah.product.domain.variant.ProductVariantId;
 
@@ -179,6 +180,16 @@ public final class Sku extends AbstractAggregateRoot<SkuId> {
                             + "=" + identifier.value()
             );
         }
+
+        raise(
+                new SkuIdentifierRemoved(
+                        UUID.randomUUID(),
+                        Instant.now(),
+                        id(),
+                        identifier.type(),
+                        identifier.value()
+                )
+        );
     }
 
     private void ensureMutable() {

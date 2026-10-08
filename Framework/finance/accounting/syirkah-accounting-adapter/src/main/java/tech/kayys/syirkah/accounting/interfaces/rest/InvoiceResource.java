@@ -11,6 +11,7 @@ import tech.kayys.syirkah.accounting.domain.identifier.InvoiceId;
 import tech.kayys.syirkah.accounting.domain.valueobject.InvoiceDeliveryMethod;
 import tech.kayys.syirkah.accounting.domain.valueobject.PaymentMethod;
 
+import io.quarkus.arc.properties.IfBuildProperty;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -25,6 +26,14 @@ import java.util.concurrent.CompletionStage;
 /**
  * REST API for invoice management.
  */
+// Gated: this resource depends on the aspirational application.api.InvoiceService
+// interface, which has no implementation. The working invoice endpoints are
+// AccountsReceivableResource, backed by receivables.application.InvoiceService
+// (produced by AccountingServiceProducer). Remove this gate once
+// application.api.InvoiceService is implemented or this resource is retired.
+@IfBuildProperty(
+        name = "syirkah.accounting.invoice-api.enabled",
+        stringValue = "false")
 @Path("/api/v1/invoices")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

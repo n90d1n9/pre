@@ -31,4 +31,7 @@ public class AccountEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     public AccountStatus status;
+
+    @Column(name = "roles")
+    public String roles; // comma-separated list of role names
 }

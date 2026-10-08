@@ -1,7 +1,9 @@
 package tech.kayys.syirkah.event.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -11,12 +13,10 @@ import java.util.UUID;
  * requirement in base01.md §P1-15): the same EventId arriving twice must be
  * processed once.
  */
-public final class EventId extends Identifier<UUID> {
+public record EventId(UUID value) implements DomainId<UUID>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public EventId(UUID value) {
-        super(value);
+    public EventId {
+        Objects.requireNonNull(value, "EventId value cannot be null");
     }
 
     public static EventId of(UUID value) {

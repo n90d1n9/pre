@@ -1,15 +1,15 @@
 package tech.kayys.syirkah.billing.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class InvoiceId extends Identifier<String> {
+public record InvoiceId(String value) implements DomainId<String>, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    public InvoiceId(String value) {
-        super(value);
+    public InvoiceId {
+        Objects.requireNonNull(value, "InvoiceId value cannot be null");
     }
 
     public static InvoiceId generate() {

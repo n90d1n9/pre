@@ -15,7 +15,6 @@
         <module>product-spi</module>
         <module>product-application</module>
         <module>product-adapter</module>
-        <module>product-core</module>
         <module>product-catalog</module>
         <!--
             product-runtime is intentionally NOT in the reactor: it is the

@@ -10,7 +10,7 @@ import tech.kayys.syirkah.accounting.application.api.query.*;
 import tech.kayys.syirkah.accounting.application.cqrs.QueryBus;
 import tech.kayys.syirkah.accounting.application.service.FinancialReportingService;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.accounting.domain.report.*;
 
 import java.time.LocalDate;
@@ -36,7 +36,7 @@ public class FinancialReportingResource {
             @QueryParam("asOfDate") String asOfDateStr
     ) {
         LocalDate date = asOfDateStr != null ? LocalDate.parse(asOfDateStr) : LocalDate.now();
-        GetTrialBalanceQuery query = new GetTrialBalanceQuery(TenantId.of(tenantStr), LedgerId.of(ledgerStr), date);
+        GetTrialBalanceQuery query = new GetTrialBalanceQuery(TenantRef.of(tenantStr), LedgerId.of(ledgerStr), date);
         return queryBus.execute(query);
     }
 
@@ -49,7 +49,7 @@ public class FinancialReportingResource {
             @QueryParam("asOfDate") String asOfDateStr
     ) {
         LocalDate date = asOfDateStr != null ? LocalDate.parse(asOfDateStr) : LocalDate.now();
-        GetBalanceSheetQuery query = new GetBalanceSheetQuery(TenantId.of(tenantStr), LedgerId.of(ledgerStr), date);
+        GetBalanceSheetQuery query = new GetBalanceSheetQuery(TenantRef.of(tenantStr), LedgerId.of(ledgerStr), date);
         return queryBus.execute(query);
     }
 
@@ -65,7 +65,7 @@ public class FinancialReportingResource {
         LocalDate start = startStr != null ? LocalDate.parse(startStr) : LocalDate.now().withDayOfMonth(1);
         LocalDate end = endStr != null ? LocalDate.parse(endStr) : LocalDate.now();
         ReportPeriod period = new ReportPeriod(start, end, "Period " + start + " to " + end);
-        GetIncomeStatementQuery query = new GetIncomeStatementQuery(TenantId.of(tenantStr), LedgerId.of(ledgerStr), period);
+        GetIncomeStatementQuery query = new GetIncomeStatementQuery(TenantRef.of(tenantStr), LedgerId.of(ledgerStr), period);
         return queryBus.execute(query);
     }
 
@@ -81,7 +81,7 @@ public class FinancialReportingResource {
         LocalDate start = startStr != null ? LocalDate.parse(startStr) : LocalDate.now().withDayOfMonth(1);
         LocalDate end = endStr != null ? LocalDate.parse(endStr) : LocalDate.now();
         ReportPeriod period = new ReportPeriod(start, end, "Period " + start + " to " + end);
-        GetCashFlowQuery query = new GetCashFlowQuery(TenantId.of(tenantStr), LedgerId.of(ledgerStr), period);
+        GetCashFlowQuery query = new GetCashFlowQuery(TenantRef.of(tenantStr), LedgerId.of(ledgerStr), period);
         return queryBus.execute(query);
     }
 

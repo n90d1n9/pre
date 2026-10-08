@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.compliance.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Compliance requirement identifier.
  */
-public final class ComplianceRequirementId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record ComplianceRequirementId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public ComplianceRequirementId(UUID value) {
-        super(value);
+    public ComplianceRequirementId {
+        Objects.requireNonNull(value, "ComplianceRequirementId value cannot be null");
     }
 
     public static ComplianceRequirementId of(UUID value) {

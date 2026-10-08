@@ -58,7 +58,7 @@ public final class PayrollPeriod extends AbstractAggregateRoot<PayrollPeriodId> 
         this.status = PayrollPeriodStatus.PROCESSING;
     }
 
-    public void finalize() {
+    public void finalizePeriod() {
         if (status != PayrollPeriodStatus.PROCESSING) {
             throw new IllegalStateException("Payroll period is not in processing state");
         }

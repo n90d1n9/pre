@@ -2,14 +2,14 @@ package tech.kayys.syirkah.accounting.application.api.query;
 
 import tech.kayys.syirkah.accounting.application.cqrs.Query;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.accounting.domain.report.IncomeStatement;
 import tech.kayys.syirkah.accounting.domain.report.ReportPeriod;
 
 import java.util.Objects;
 
 public record GetIncomeStatementQuery(
-        TenantId tenantId,
+        TenantRef tenantId,
         LedgerId ledgerId,
         ReportPeriod period
 ) implements Query<IncomeStatement> {

@@ -1,7 +1,7 @@
 package tech.kayys.syirkah.accounting.domain.ledger;
 
 import tech.kayys.syirkah.accounting.domain.multitenancy.TenantAware;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.accounting.domain.valueobject.ComplianceStandard;
 import tech.kayys.syirkah.foundation.domain.entity.AbstractAggregateRoot;
 import tech.kayys.syirkah.foundation.domain.valueobject.Currency;
@@ -14,7 +14,7 @@ import java.util.Objects;
 public final class Ledger extends AbstractAggregateRoot<LedgerId> implements TenantAware {
 
     private final LedgerId id;
-    private final TenantId tenantId;
+    private final TenantRef tenantId;
     private String name;
     private LedgerType type;
     private Currency baseCurrency;
@@ -23,7 +23,7 @@ public final class Ledger extends AbstractAggregateRoot<LedgerId> implements Ten
 
     public Ledger(
             LedgerId id,
-            TenantId tenantId,
+            TenantRef tenantId,
             String name,
             LedgerType type,
             Currency baseCurrency,
@@ -42,7 +42,7 @@ public final class Ledger extends AbstractAggregateRoot<LedgerId> implements Ten
     public LedgerId id() { return id; }
 
     @Override
-    public TenantId tenantId() { return tenantId; }
+    public TenantRef tenantId() { return tenantId; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = Objects.requireNonNull(name); }

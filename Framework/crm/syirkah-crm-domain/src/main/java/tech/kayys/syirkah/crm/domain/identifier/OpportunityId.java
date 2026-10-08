@@ -1,18 +1,18 @@
 package tech.kayys.syirkah.crm.domain.identifier;
 
-import tech.kayys.syirkah.foundation.domain.identifier.Identifier;
+import tech.kayys.syirkah.foundation.domain.identifier.DomainId;
 
+import java.util.Objects;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Opportunity identifier.
  */
-public final class OpportunityId extends Identifier<UUID> {
-    
-    private static final long serialVersionUID = 1L;
+public record OpportunityId(UUID value) implements DomainId<UUID>, Serializable {
 
-    public OpportunityId(UUID value) {
-        super(value);
+    public OpportunityId {
+        Objects.requireNonNull(value, "OpportunityId value cannot be null");
     }
 
     public static OpportunityId of(UUID value) {

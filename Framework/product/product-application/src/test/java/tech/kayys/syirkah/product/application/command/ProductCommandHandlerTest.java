@@ -12,7 +12,7 @@ import tech.kayys.syirkah.product.domain.event.ProductCreated;
 import tech.kayys.syirkah.product.domain.event.ProductDiscontinued;
 import tech.kayys.syirkah.product.domain.event.ProductIdentifierAdded;
 import tech.kayys.syirkah.product.domain.event.ProductRenamed;
-import tech.kayys.syirkah.product.domain.identifier.IdentifierType;
+import tech.kayys.syirkah.product.domain.identifier.ProductIdentifierType;
 import tech.kayys.syirkah.product.domain.identifier.ProductIdentifier;
 import tech.kayys.syirkah.product.domain.product.ProductId;
 import tech.kayys.syirkah.product.domain.product.ProductStatus;
@@ -186,7 +186,7 @@ class ProductCommandHandlerTest {
                 new AddProductIdentifierCommand(
                         productId,
                         new ProductIdentifier(
-                                IdentifierType.EAN,
+                                ProductIdentifierType.EAN,
                                 "8991234567890"
                         )
                 )
@@ -234,5 +234,101 @@ class ProductCommandHandlerTest {
                         .toCompletableFuture().join()
                         .orElseThrow().status()
         );
+    }
+
+
+    @Test
+    void normalizesWhitespaceInBarcode() {
+        var productId = register("MILK-1L");
+
+        addIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                ProductIdentifierType.GTIN,
+                                " 123456789012 "  // leading/trailing spaces
+                        )
+                )
+        ).await().indefinitely().orElseThrow();
+
+        var stored = products.findById(productId)
+                .toCompletableFuture().join().orElseThrow();
+        var identifier = stored.identifiers().stream()
+                .filter(i -> i.type() == ProductIdentifierType.GTIN)
+                .findFirst().orElseThrow();
+
+        assertEquals("123456789012", identifier.value());
+    }
+
+    @Test
+    void stripsNonDigitCharactersForBarcodes() {
+        var productId = register("MILK-1L");
+        events.reset();
+
+        addIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                ProductIdentifierType.EAN,
+                                "89-9123-4567-890"  // dashes
+                        )
+                )
+        ).await().indefinitely().orElseThrow();
+
+        var stored = products.findById(productId)
+                .toCompletableFuture().join().orElseThrow();
+        var identifier = stored.identifiers().stream()
+                .filter(i -> i.type() == ProductIdentifierType.EAN)
+                .findFirst().orElseThrow();
+
+        assertEquals("8991234567890", identifier.value());
+    }
+
+    @Test
+    void rejectsInvalidEANLength() {
+        var productId = register("MILK-1L");
+        events.reset();
+
+        var result = addIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                ProductIdentifierType.EAN,
+                                "1234567"  // only 7 digits
+                        )
+                )
+        ).await().indefinitely();
+
+        assertInstanceOf(Result.Failure.class, result);
+        assertEquals("BUSINESS_RULE_VIOLATION", failureCode(result));
+    }
+
+    @Test
+    void rejectsDuplicateAfterNormalization() {
+        var productId = register("MILK-1L");
+        events.reset();
+
+        addIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                ProductIdentifierType.EAN,
+                                "8991234567890"
+                        )
+                )
+        ).await().indefinitely().orElseThrow();
+
+        var result = addIdentifier.handle(
+                new AddProductIdentifierCommand(
+                        productId,
+                        new ProductIdentifier(
+                                ProductIdentifierType.EAN,
+                                " 8991234567890 "
+                        )
+                )
+        ).await().indefinitely();
+
+        assertInstanceOf(Result.Failure.class, result);
+        assertEquals("BUSINESS_RULE_VIOLATION", failureCode(result));
     }
 }

@@ -9,6 +9,7 @@ import tech.kayys.syirkah.product.domain.product.ProductId;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -135,16 +136,16 @@ class ProductSpecificationTest {
     }
 
     @Test
-    void optionGroupRequiresAtLeastOneOption() {
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> new OptionGroup(
-                        "SIZE",
-                        "Cup size",
-                        true,
-                        List.of()
-                )
-        );
+    void optionGroupMayBeCreatedEmptyThenFilled() {
+        var group = OptionGroup.create("SIZE", "Cup size", true, false);
+
+        assertTrue(group.options().isEmpty());
+        assertFalse(group.multiSelect());
+
+        var withOption = group.withOption(
+                new OptionDefinition("SMALL", "Small"));
+
+        assertEquals(1, withOption.options().size());
     }
 
     @Test

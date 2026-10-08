@@ -13,7 +13,7 @@ import tech.kayys.syirkah.accounting.application.port.AccountRepository;
 import tech.kayys.syirkah.accounting.domain.identifier.AccountId;
 import tech.kayys.syirkah.accounting.domain.ledger.LedgerId;
 import tech.kayys.syirkah.accounting.domain.model.Account;
-import tech.kayys.syirkah.accounting.domain.multitenancy.TenantId;
+import tech.kayys.syirkah.accounting.domain.multitenancy.TenantRef;
 import tech.kayys.syirkah.accounting.domain.valueobject.AccountType;
 
 import java.util.List;
@@ -31,7 +31,8 @@ public class AccountResource {
     @Inject
     CommandBus commandBus;
 
-    public record CreateAccountRequest(
+    
+public record CreateAccountRequest(
             String tenantId,
             String ledgerId,
             String accountNumber,
@@ -59,7 +60,7 @@ public class AccountResource {
     @POST
     @Operation(summary = "Create a new Account via CQRS Command Bus")
     public Uni<Response> createAccount(CreateAccountRequest req) {
-        TenantId tId = req.tenantId() != null ? TenantId.of(req.tenantId()) : TenantId.defaultTenant();
+        TenantRef tId = req.tenantId() != null ? TenantRef.of(req.tenantId()) : TenantRef.defaultTenant();
         LedgerId lId = req.ledgerId() != null ? LedgerId.of(req.ledgerId()) : LedgerId.primary();
         AccountType type = AccountType.valueOf(req.accountType().toUpperCase());
 
