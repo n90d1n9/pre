@@ -18,15 +18,17 @@ public final class OrganizationUnit extends AbstractAggregateRoot<OrganizationUn
 
     private final OrganizationId organizationId;
     private final OrganizationUnitId parentUnitId; // nullable — root unit has no parent
+    private OrganizationUnitKind kind;
     private String name;
     private String code;
     private OrganizationUnitStatus status;
 
     private OrganizationUnit(OrganizationUnitId id, OrganizationId organizationId,
-                              OrganizationUnitId parentUnitId, String name, String code) {
+                              OrganizationUnitId parentUnitId, OrganizationUnitKind kind, String name, String code) {
         super(id);
         this.organizationId = Objects.requireNonNull(organizationId, "organizationId must not be null");
         this.parentUnitId = parentUnitId; // nullable
+        this.kind = kind != null ? kind : OrganizationUnitKind.DEPARTMENT;
         this.name = Objects.requireNonNull(name, "name must not be null");
         this.code = code;
         this.status = OrganizationUnitStatus.ACTIVE;
@@ -34,7 +36,12 @@ public final class OrganizationUnit extends AbstractAggregateRoot<OrganizationUn
 
     public static OrganizationUnit create(OrganizationUnitId id, OrganizationId organizationId,
                                            OrganizationUnitId parentUnitId, String name, String code) {
-        OrganizationUnit unit = new OrganizationUnit(id, organizationId, parentUnitId, name, code);
+        return create(id, organizationId, parentUnitId, OrganizationUnitKind.DEPARTMENT, name, code);
+    }
+
+    public static OrganizationUnit create(OrganizationUnitId id, OrganizationId organizationId,
+                                           OrganizationUnitId parentUnitId, OrganizationUnitKind kind, String name, String code) {
+        OrganizationUnit unit = new OrganizationUnit(id, organizationId, parentUnitId, kind, name, code);
         unit.raise(new OrganizationUnitCreated(id, organizationId, parentUnitId, name, code));
         return unit;
     }
@@ -61,6 +68,7 @@ public final class OrganizationUnit extends AbstractAggregateRoot<OrganizationUn
 
     public OrganizationId getOrganizationId() { return organizationId; }
     public OrganizationUnitId getParentUnitId() { return parentUnitId; }
+    public OrganizationUnitKind getKind() { return kind; }
     public String getName() { return name; }
     public String getCode() { return code; }
     public OrganizationUnitStatus getStatus() { return status; }
